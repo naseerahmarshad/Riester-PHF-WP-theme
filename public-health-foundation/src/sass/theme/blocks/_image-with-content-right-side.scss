@@ -1,0 +1,128 @@
+.phf-image-with-content-right-side {
+    display: block;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-top: 1rem;
+    padding-right: 0 !important;
+    padding-bottom: 3.75rem;
+    padding-left: 0 !important;
+    height: auto;
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 2rem;
+        background: #192F59;
+        z-index: -1;
+    }
+
+    > .alignfull {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .phf-image-with-content-right-side__imagecopycol {
+        margin-block-start: 0;
+        padding-right: 2rem;
+        .phf-image-with-content-right-side__imagecol {
+            padding-right: 0;
+            .wp-block-image {
+                display: block;
+                padding: 2rem 2rem 0 0;
+                position: relative;
+                &:before {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    width: 3.938rem;
+                    height: 3.938rem;
+                    top: 0;
+                    right: 0;
+                    background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2263%22 height=%2263%22 viewBox=%220 0 63 63%22 fill=%22none%22%3E%3Cpath d=%22M63 0H12.4376L0 12.36H50.5624V63L63 50.63V0Z%22 fill=%22%23EDA621%22/%3E%3C/svg%3E') no-repeat center center;
+                    background-size: contain;
+                }
+                @media (max-width: 767px) {
+                    padding-top: 1rem;
+                    padding-right: 1rem;
+                    &:before {
+                        width: 2rem;
+                        height: 2rem;
+                    }
+                }
+                img {
+                    width: 100%;
+                }
+            }
+        }
+        .phf-image-with-content-right-side__copycol {
+            padding-left: 3.5rem;
+            .phf-image-with-content-right-side__heading {
+                font-size: 3rem;
+                line-height: 1.15;
+                color: inherit;
+                margin-bottom: 1.6rem;
+            }
+            .phf-image-with-content-right-side__copy {
+                margin: 0;
+                font-size: 1.125rem;
+                color: inherit;
+                line-height: 2;
+            }
+            .phf-image-with-content-right-side__buttons {
+                margin-top: 2rem;
+                .wp-block-button__link {
+                    color: #000;
+                    background: #F5B641;
+                    padding-left: 1.5rem;
+                    padding-right: 1.5rem;
+                    &:before {
+                        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="170" height="55" viewBox="0 0 170 55" fill="none"><path d="M37.5 0H170V54.5C170 54.5 151.5 30 110.5 15C69.5 0 37.5 0 37.5 0Z" fill="%23EDA621"/><path d="M0 55H131C131 55 116 29.3749 82 14.4999C48 -0.374997 0 1.00003 0 1.00003V55Z" fill="%23EDA621"/></svg>') no-repeat center center;
+                        background-size: cover;
+                    }
+                    &:hover {
+                        background: #EDA621 !important;
+                        &::before {
+                            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='170' height='55' viewBox='0 0 170 55' fill='none'><path d='M37.5 0H170V54.5C170 54.5 151.5 30 110.5 15C69.5 0 37.5 0 37.5 0Z' fill='%23F5B641'/><path d='M0 55H131C131 55 116 29.3749 82 14.4999C48 -0.374997 0 1.00003 0 1.00003V55Z' fill='%23F5B641'/></svg>") no-repeat center center;
+                            background-size: cover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    
+    @media (min-width: 768px) {
+        padding-top: 3.063rem;
+        &:before {
+            left: 15%;
+        }
+        .phf-image-with-content-right-side__imagecopycol {
+            .phf-image-with-content-right-side__imagecol {
+                padding-right: 2rem;
+            }
+            .phf-image-with-content-right-side__copycol {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding-top: 1.5rem;
+                padding-right: 5rem;
+                padding-left: 0;
+                .phf-image-with-content-right-side__buttons {
+                    margin-top: 3rem;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 767px) {
+        
+    }
+}

@@ -1,0 +1,10 @@
+pipelines:
+  branches:
+    dev:
+      - step:
+          name: Deploy to PHF Development
+          script:
+          - pipe: wpengine/wpe-site-deploy:v1
+            variables:
+              WPE_SSHG_KEY_PRIVATE: $WPE_SSHG_KEY_PRIVATE
+              WPE_ENV: 'phf24dev'

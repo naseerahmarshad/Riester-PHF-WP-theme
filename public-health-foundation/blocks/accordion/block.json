@@ -1,0 +1,17 @@
+{
+  "name": "acf/accordion",
+  "title": "Accordion",
+  "description": "Accordion module with title + content pairs..",
+  "style": ["file:./block.css"],
+  "script": ["file:./block.js"],
+  "category": "content",
+  "icon": "sort",
+  "keywords": ["accordion", "faqs", "faq"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "block.php"
+  },
+  "supports": {
+    "align": true
+  }
+}

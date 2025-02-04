@@ -1,0 +1,22 @@
+.swiper-slider-section {
+    .swiper-slide {
+        padding-bottom: 2rem;
+    }
+    .swiper-pagination {
+        display: flex;
+        justify-content: start;
+        bottom: 0;
+        gap: 1.125rem;
+        * {
+            margin: 0;
+            background: #677A9E;
+            width: 4.688rem;
+            height: 0.25rem;
+            border-radius: 0;
+            opacity: 1;
+            &.swiper-pagination-bullet-active {
+                background: #EDA621;
+            }
+        }
+    }
+}

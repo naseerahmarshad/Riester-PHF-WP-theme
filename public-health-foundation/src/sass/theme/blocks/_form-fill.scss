@@ -1,0 +1,26 @@
+.block-form-fill {
+    .gform_required_legend {
+        display: none;
+    }
+
+    .talk-bubble-wrapper {
+        position: relative;
+        width: auto;
+        height: 83.333%;
+        max-width: 384px;
+        aspect-ratio: 384 / 320 !important;
+        overflow: visible;
+
+        .talk-bubble {
+            position: relative;
+            left: -38%;
+            display: block;
+            /* Ensures proper rendering within the wrapper */
+            width: 100%;
+            /* Scale the SVG to match the wrapper's width */
+            height: auto;
+            /* Maintain aspect ratio of the SVG */
+        }
+    }
+    .form-sectio{margin-top:6.5%;}
+}

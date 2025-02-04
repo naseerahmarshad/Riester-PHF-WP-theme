@@ -1,0 +1,137 @@
+.phf-footer-wrapper {
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    > .wp-block-group {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+        border-top: solid 1px rgba(149, 149, 149, 0.25);
+        margin-right: auto !important;
+        margin-left: auto !important;
+        .phf-footer-wrapper__rowinner {
+            width: 100%;
+            max-width: 100%;
+            align-items: flex-start;
+        }
+        p {
+            font-size: 0.938rem;
+            font-weight: normal;
+            color: #161C2D;
+            margin-block-start: 1rem;
+            a {
+                color: inherit;
+                text-decoration: underline;
+                font-size: inherit;
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+        }
+        .phf-footer-wrapper__col1 {
+            .phf-footer-wrapper__logo {
+                margin-bottom: 0.5rem;
+            }
+            p {
+                margin-top: 0;
+                margin-block-start: 0;
+            }
+        }
+        .phf-footer-wrapper__col2 {
+            .phf-footer-wrapper__socialmedialinks {
+                justify-content: flex-end;
+                margin-top: 0.8rem;
+                p {
+                    margin-top: 0;
+                }
+                a {
+                    display: flex;
+                    width: 1.688rem;
+                    height: 1.688rem;
+                    text-indent: -9999px;
+                    text-decoration: none;
+                }
+                .phf-footer-wrapper__linkedin {
+                    a {
+                        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 27 27' fill='none'%3E%3Cpath d='M25.0714 0H1.92254C0.86183 0 0 0.873884 0 1.94665V25.0533C0 26.1261 0.86183 27 1.92254 27H25.0714C26.1321 27 27 26.1261 27 25.0533V1.94665C27 0.873884 26.1321 0 25.0714 0ZM8.16027 23.1429H4.15848V10.2576H8.1663V23.1429H8.16027ZM6.15937 8.49777C4.87567 8.49777 3.83906 7.45513 3.83906 6.17746C3.83906 4.89978 4.87567 3.85714 6.15937 3.85714C7.43705 3.85714 8.47969 4.89978 8.47969 6.17746C8.47969 7.46116 7.44308 8.49777 6.15937 8.49777ZM23.1609 23.1429H19.1592V16.875C19.1592 15.3804 19.129 13.4578 17.0799 13.4578C14.9946 13.4578 14.6752 15.085 14.6752 16.7665V23.1429H10.6734V10.2576H14.5125V12.0174H14.5667C15.1031 11.0049 16.4109 9.93817 18.3576 9.93817C22.4076 9.93817 23.1609 12.608 23.1609 16.0795V23.1429Z' fill='%23192F59'/%3E%3C/svg%3E") no-repeat center center;
+                        background-size: contain;
+                    }
+                }
+                .phf-footer-wrapper__twitter-x {
+                    a {
+                        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 27 27' fill='none'%3E%3Cpath d='M2.89286 0C0.765402 0 0 0.765402 0 2.89286V24.1071C0 26.2346 0.765402 27 2.89286 27H24.1071C26.2346 27 27 26.2346 27 24.1071V2.89286C27 0.765402 26.2346 0 24.1071 0H2.89286ZM21.7627 5.0625L15.5069 12.2103L22.8656 21.9375H17.104L12.596 16.0373L7.43103 21.9375H4.5683L11.258 14.2895L4.20067 5.0625H10.1069L14.1871 10.4565L18.9 5.0625H21.7627ZM19.4846 20.2259L9.24509 6.68371H7.53951L17.8935 20.2259H19.4786H19.4846Z' fill='%23192F59'/%3E%3C/svg%3E") no-repeat center center;
+                        background-size: contain;
+                    }
+                }
+                .phf-footer-wrapper__facebook {
+                    a {
+                        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 27 27' fill='none'%3E%3Cpath d='M24.1071 0H2.89286C2.12562 0 1.38981 0.304782 0.847298 0.847298C0.304782 1.38981 0 2.12562 0 2.89286L0 24.1071C0 24.8744 0.304782 25.6102 0.847298 26.1527C1.38981 26.6952 2.12562 27 2.89286 27H11.1646V17.8206H7.36775V13.5H11.1646V10.207C11.1646 6.46132 13.3945 4.39232 16.8099 4.39232C18.4456 4.39232 20.156 4.68402 20.156 4.68402V8.36036H18.2714C16.4146 8.36036 15.8354 9.51268 15.8354 10.6945V13.5H19.9806L19.3177 17.8206H15.8354V27H24.1071C24.8744 27 25.6102 26.6952 26.1527 26.1527C26.6952 25.6102 27 24.8744 27 24.1071V2.89286C27 2.12562 26.6952 1.38981 26.1527 0.847298C25.6102 0.304782 24.8744 0 24.1071 0Z' fill='%23192F59'/%3E%3C/svg%3E") no-repeat center center;
+                        background-size: contain;
+                    }
+                }
+            }
+            .phf-footer-wrapper__footerlinks {
+                margin-block-start: 1.5rem;
+                p {
+                    margin-top: 0;
+                    color: #000;
+                    a {
+                        color: inherit;
+                    }
+                }
+            }
+        }
+    }
+    @media (min-width: 1286px) {
+        > .wp-block-group {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
+    @media (max-width: 767px) {
+        > .wp-block-group {
+            padding-top: 3rem !important;
+            padding-bottom: 3rem !important;
+            .phf-footer-wrapper__rowinner {
+                flex-direction: column-reverse;
+            }
+            .phf-footer-wrapper__col1,
+            .phf-footer-wrapper__col2 {
+                width: 100%;
+                max-width: 100%;
+            }
+            .phf-footer-wrapper__col1 {
+                justify-content: center;
+                text-align: center;
+                p {
+                    text-align: center;
+                }
+            }
+            .phf-footer-wrapper__col2 {
+                .phf-footer-wrapper__socialmedialinks {
+                    justify-content: center;
+                    gap: 2.5rem;
+                    margin-top: 0;
+                    a {
+                        width: 2.5rem;
+                        height: 2.5rem;
+                    }
+                }
+                .phf-footer-wrapper__footerlinks {
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                    margin-block-end: 0.5rem;
+                    p {
+                        font-size: 1.125rem;
+                        color: #000;
+                    }
+                    a {
+                        text-decoration: none;
+                        color: inherit;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,521 @@
+.phf-header-navbar {
+    position: relative;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    background: #fff;
+    .phf-header-navbar__toprow {
+        background: #192F59;
+        color: #fff;
+        height: 2.25rem;
+        padding-top: 0;
+        padding-bottom: 0;
+        .wp-block-group {
+            align-items: center;
+            p {
+                margin: 0;
+                height: 2.25rem;
+                display: flex;
+                align-items: center;
+                font-size: 1.063rem;
+                a {
+                    font-size: inherit;
+                    text-decoration: none;
+                    font-weight: normal;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+    .phf-header-navbar__secondrow {
+        align-items: flex-end;
+        padding-top: 1rem;
+        padding-bottom: 0;
+        margin-block-start: 0;
+        position: relative;
+        .phf-header-navbar__logo {
+            display: inline-flex;
+            margin-bottom: 1rem;
+        }
+        .menuopen-btn {
+            display: none;
+        }
+        .phf-header-navbar__menunavigation {
+            .wp-block-navigation__responsive-container {
+                .phf-header-navbar__searchfield.wp-block-search {
+                    display: block;
+                }
+                .wp-block-navigation__responsive-container-content {
+                    > ul {
+                        > .wp-block-navigation-item {
+                            > a {
+                                font-size: 1.375rem;
+                                font-weight: 600;
+                                color: #000;
+                                position: relative;
+                                padding-bottom: 1rem;
+                                &:before {
+                                    content: '';
+                                    display: block;
+                                    position: absolute;
+                                    bottom: 0;
+                                    right: 0;
+                                    left: 0;
+                                    height: 0.625rem;
+                                    background: #EDA621;
+                                    width: 0%;
+                                    transition: all 400ms;
+                                    opacity: 0;
+                                    visibility: hidden;
+                                }
+                            }
+                            &.current-menu-item,
+                            &:hover {
+                                a {
+                                    color: #000;
+                                    &:before {
+                                        width: 100%;
+                                        opacity: 1;
+                                        visibility: visible;
+                                    }
+                                }
+                            }
+                            .wp-block-navigation__submenu-icon {
+                                display: none;
+                            }
+                            .wp-block-navigation__submenu-container.wp-block-navigation-submenu {
+                                width: 16.625rem;
+                                background: #fff;
+                                box-shadow: 0px 4px 30px 0px rgba(25, 47, 89, 0.50);
+                                padding: 0;
+                                left: 0;
+                                li {
+                                    a {
+                                        padding: 0.8rem 1.5rem;
+                                        font-size: 1.25rem;
+                                        font-weight: 500;
+                                        color: #231F20;
+                                    }
+                                    &:hover {
+                                        a {
+                                            color: #000;
+                                            background: #EDA621;
+                                        }
+                                    }
+                                }
+                            }
+                            &:last-child {
+                                .wp-block-navigation__submenu-container.wp-block-navigation-submenu {
+                                    right: 0;
+                                    left: auto;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .navbarsearch-btn {
+        display: none;
+    }
+    .wp-block-navigation__responsive-container {
+        position: relative;
+    }
+    @media (min-width: 768px) {
+        &.is-style-shadow-light {
+            box-shadow: 0px 4px 30px 0px rgba(25, 47, 89, 0.50);
+            .phf-header-navbar__toprow .wp-block-column:nth-child(2),
+            .phf-header-navbar__secondrow {
+                padding-right: 6.875rem;
+            }
+            .phf-header-navbar__menunavigation {
+                .wp-block-navigation__responsive-container {
+                    .wp-block-buttons {
+                        display: none;
+                    }
+                    .phf-header-navbar__searchfield.wp-block-search {
+                        display: none;
+                        align-items: center;
+                        justify-content: center;
+                        position: fixed;
+                        width: 100%;
+                        height: 8.75rem;
+                        top: 9.1rem;
+                        left: 0;
+                        right: 0;
+                        z-index: 1;
+                        background: #EDA621;
+                        &.phf-header-navbar__searchfield-active {
+                            display: flex;
+                        }
+                        .wp-block-search__inside-wrapper {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-basis: auto;
+                            flex-grow: 0;
+                            flex-shrink: 0;
+                            position: relative;
+                            width: 70% !important;
+                            max-width: 52.688rem !important;
+                            margin: 0 auto;
+                            border-top: none;
+                            border-right: none;
+                            border-bottom: solid 5px #000;
+                            border-left: none;
+                            padding: 0;
+                            .wp-block-search__input {
+                                width: 100%;
+                                color: #000;
+                                font-size: 2.75rem;
+                                font-style: italic;
+                                font-weight: 400;
+                                height: 3.2rem;
+                                padding: 0;
+                                &::placeholder {
+                                    color: #000;
+                                    font-size: 2.75rem;
+                                    font-style: italic;
+                                    font-weight: 400;
+                                    opacity: 1;
+                                }
+                            }
+                            .wp-block-search__button {
+                                cursor: pointer;
+                                background-image: url('data:image/svg+xml;utf8,<svg width="41" height="41" viewBox="0 0 41 41" xmlns="http://www.w3.org/2000/svg"><path d="M37.8339 40.3754L23.5846 26.1261C22.4598 27.0658 21.1183 27.7875 19.5599 28.2914C18.0012 28.7956 16.4434 29.0478 14.8865 29.0478C10.8479 29.0478 7.44739 27.6674 4.68513 24.9066C1.92288 22.1454 0.541748 18.7682 0.541748 14.7748C0.541748 10.7817 1.92214 7.40352 4.68293 4.64016C7.44408 1.8768 10.8179 0.495117 14.8043 0.495117C18.7907 0.495117 22.1713 1.87588 24.946 4.6374C27.7208 7.39929 29.1082 10.7775 29.1082 14.772C29.1082 16.3657 28.8588 17.9086 28.3601 19.4007C27.8614 20.8928 27.1308 22.2365 26.1684 23.432L40.4955 37.7L37.8339 40.3754ZM14.8291 25.3162C17.8008 25.3162 20.3017 24.3013 22.3319 22.2715C24.3618 20.2413 25.3767 17.7413 25.3767 14.7714C25.3767 11.8016 24.3629 9.30177 22.3352 7.27194C20.3073 5.24175 17.8063 4.22665 14.8324 4.22665C11.846 4.22665 9.33956 5.24175 7.31305 7.27194C5.28654 9.30177 4.27328 11.8016 4.27328 14.7714C4.27328 17.7413 5.28654 20.2413 7.31305 22.2715C9.33956 24.3013 11.8449 25.3162 14.8291 25.3162Z" fill="%231C1B1F"/></svg>');
+                                background-repeat: no-repeat;
+                                background-position: center center;
+                                background-size: 2.5rem;
+                                background-color: #EDA621;
+                                width: 4.688rem;
+                                height: 4.688rem;
+                                padding: 0;
+                                margin: 0;
+                                svg {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .navbarsearch-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            cursor: pointer;
+            background-image: url('data:image/svg+xml;utf8,<svg width="41" height="41" viewBox="0 0 41 41" xmlns="http://www.w3.org/2000/svg"><path d="M37.8339 40.3754L23.5846 26.1261C22.4598 27.0658 21.1183 27.7875 19.5599 28.2914C18.0012 28.7956 16.4434 29.0478 14.8865 29.0478C10.8479 29.0478 7.44739 27.6674 4.68513 24.9066C1.92288 22.1454 0.541748 18.7682 0.541748 14.7748C0.541748 10.7817 1.92214 7.40352 4.68293 4.64016C7.44408 1.8768 10.8179 0.495117 14.8043 0.495117C18.7907 0.495117 22.1713 1.87588 24.946 4.6374C27.7208 7.39929 29.1082 10.7775 29.1082 14.772C29.1082 16.3657 28.8588 17.9086 28.3601 19.4007C27.8614 20.8928 27.1308 22.2365 26.1684 23.432L40.4955 37.7L37.8339 40.3754ZM14.8291 25.3162C17.8008 25.3162 20.3017 24.3013 22.3319 22.2715C24.3618 20.2413 25.3767 17.7413 25.3767 14.7714C25.3767 11.8016 24.3629 9.30177 22.3352 7.27194C20.3073 5.24175 17.8063 4.22665 14.8324 4.22665C11.846 4.22665 9.33956 5.24175 7.31305 7.27194C5.28654 9.30177 4.27328 11.8016 4.27328 14.7714C4.27328 17.7413 5.28654 20.2413 7.31305 22.2715C9.33956 24.3013 11.8449 25.3162 14.8291 25.3162Z" fill="%231C1B1F"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 2.5rem;
+            background-color: #EDA621;
+            color: #fff;
+            border: none;
+            width: 6.875rem;
+            height: 6.875rem;
+            &.navbarsearch-btn-opened {
+                background-image: url('data:image/svg+xml;utf8,<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg"><path d="M2.8 28L0 25.2L11.2 14L0 2.8L2.8 0L14 11.2L25.2 0L28 2.8L16.8 14L28 25.2L25.2 28L14 16.8L2.8 28Z" fill="%231C1B1F"/></svg>');
+                background-repeat: no-repeat;
+                background-position: center center;
+            }
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+    }
+    @media (max-width: 767px) {
+        .phf-header-navbar__toprow {
+            display: none;
+        }
+        .phf-header-navbar__secondrow {
+            align-items: center;
+            .menuopen-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: fixed;
+                top: 2.5rem;
+                right: 2rem;
+                width: 2.375rem;
+                height: 2.375rem;
+                background: url('data:image/svg+xml;utf8,<svg width="42" height="26" viewBox="0 0 42 26" xmlns="http://www.w3.org/2000/svg"><path d="M2 2H40" stroke="black" stroke-width="3" stroke-linecap="round"/><path d="M2 13H40" stroke="black" stroke-width="3" stroke-linecap="round"/><path d="M2 24H40" stroke="black" stroke-width="3" stroke-linecap="round"/></svg>') no-repeat center center;
+                background-size: contain;
+                border: none;
+                padding: 0;
+                outline: none;
+                z-index: 15;
+                svg {
+                    display: none;
+                }
+                &.mobile-menu-open {
+                    background: url('data:image/svg+xml;utf8,<svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><path d="M1.56494 28.4351L28.435 1.565" stroke="black" stroke-width="3" stroke-linecap="round"/><path d="M1.56494 1.56494L28.435 28.435" stroke="black" stroke-width="3" stroke-linecap="round"/></svg>') no-repeat center center;
+                    background-size: 90%;
+                }
+            }
+            .phf-header-navbar__menunavigation {
+                button[aria-label="Open menu"] {
+                    display: none;
+                }
+                .wp-block-navigation__responsive-container {
+                    display: none;
+                    position: fixed;
+                    top: 6.875rem;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    z-index: 10;
+                    overflow: auto;
+                    background: #192F59 !important;
+                    &.fullmobilemenu-open {
+                        display: block !important;
+                    }
+                    button[aria-label="Close menu"] {
+                        display: none;
+                    }
+                    .wp-block-navigation__responsive-container-content {
+                        display: block;
+                        padding: 1.438rem 1.313rem;
+                        .phf-header-navbar__searchfield.wp-block-search {
+                            display: block;
+                            width: 100%;
+                            background: #fff;
+                            height: 3.375rem;
+                            .wp-block-search__inside-wrapper {
+                                margin: 0;
+                                padding: 0;
+                                background: transparent;
+                                gap: 0;
+                                .wp-block-search__input {
+                                    display: block;
+                                    width: 100%;
+                                    height: 3.375rem;
+                                    border: none;
+                                    background: #fff;
+                                    font-size: 1.25rem;
+                                    font-weight: 400;
+                                    color: #000;
+                                    padding: 0 1rem;
+                                    font-family: inherit;
+                                    outline: none;
+                                    &::placeholder {
+                                        font-size: 1.25rem;
+                                        font-weight: 400;
+                                        font-style: italic;
+                                        color: #000;
+                                        opacity: 0.5;
+                                    }
+                                }
+                                .wp-block-search__button {
+                                    background-image: url('data:image/svg+xml;utf8,<svg width="41" height="41" viewBox="0 0 41 41" xmlns="http://www.w3.org/2000/svg"><path d="M37.8339 40.3754L23.5846 26.1261C22.4598 27.0658 21.1183 27.7875 19.5599 28.2914C18.0012 28.7956 16.4434 29.0478 14.8865 29.0478C10.8479 29.0478 7.44739 27.6674 4.68513 24.9066C1.92288 22.1454 0.541748 18.7682 0.541748 14.7748C0.541748 10.7817 1.92214 7.40352 4.68293 4.64016C7.44408 1.8768 10.8179 0.495117 14.8043 0.495117C18.7907 0.495117 22.1713 1.87588 24.946 4.6374C27.7208 7.39929 29.1082 10.7775 29.1082 14.772C29.1082 16.3657 28.8588 17.9086 28.3601 19.4007C27.8614 20.8928 27.1308 22.2365 26.1684 23.432L40.4955 37.7L37.8339 40.3754ZM14.8291 25.3162C17.8008 25.3162 20.3017 24.3013 22.3319 22.2715C24.3618 20.2413 25.3767 17.7413 25.3767 14.7714C25.3767 11.8016 24.3629 9.30177 22.3352 7.27194C20.3073 5.24175 17.8063 4.22665 14.8324 4.22665C11.846 4.22665 9.33956 5.24175 7.31305 7.27194C5.28654 9.30177 4.27328 11.8016 4.27328 14.7714C4.27328 17.7413 5.28654 20.2413 7.31305 22.2715C9.33956 24.3013 11.8449 25.3162 14.8291 25.3162Z" fill="%231C1B1F"/></svg>');
+                                    background-repeat: no-repeat;
+                                    background-position: center center;
+                                    background-size: 1.6rem;
+                                    background-color: #EDA621;
+                                    border: none;
+                                    border-radius: 0;
+                                    width: 3.688rem;
+                                    height: 3.375rem;
+                                    margin: 0;
+                                    padding: 0;
+                                    position: relative;
+                                    right: 0;
+                                    left: 0;
+                                    svg {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                        .phf-header-navbar__menunavigation {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.75rem;
+                            width: 100%;
+                            height: auto;
+                            padding-top: 0.75rem;
+                            position: relative;
+                            justify-content: flex-start;
+                            > li {
+                                display: flex;
+                                text-align: left;
+                                width: 100%;
+                                position: static;
+                                > a {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: flex-start;
+                                    width: 100%;
+                                    height: 3.125rem;
+                                    text-align: left;
+                                    background: #fff;
+                                    text-decoration: underline;
+                                    color: #231F20;
+                                    font-size: 1.063rem;
+                                    font-weight: 500;
+                                    padding: 0 1rem;
+                                    line-height: 1.3;
+                                    &:before {
+                                        display: none;
+                                    }
+                                }
+                                &.has-child {
+                                    flex-wrap: nowrap;
+                                    > a {
+                                        display: inline-flex;
+                                        border: none;
+                                    }
+                                }
+                                .wp-block-navigation__submenu-icon {
+                                    display: flex;
+                                    position: relative;
+                                    top: 0;
+                                    right: 0;
+                                    left: -0.063rem;
+                                    width: 3.75rem;
+                                    min-height: 3.125rem;
+                                    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none"><path d="M13.625 8.125L6.40179 0.901795L0.609282 0.890717L7.83249 8.11392L0.598203 15.3482L6.39214 15.3579L13.625 8.125Z" fill="black"/></svg>');
+                                    background-repeat: no-repeat;
+                                    background-size: 0.875rem;
+                                    background-position: center;
+                                    background-color: #FFF2CF;
+                                    margin: 0;
+                                    border: none;
+                                    svg {
+                                        display: none;
+                                    }
+                                }
+                                &.current-menu-item {
+                                    > a {
+                                        &:before {
+                                            display: none;
+                                        }
+                                    }
+                                }
+                                > .wp-block-navigation__submenu-container.wp-block-navigation-submenu {
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 0.75rem;
+                                    position: absolute;
+                                    top: 0;
+                                    right: -0.063rem !important;
+                                    bottom: -0.063rem;
+                                    left: -0.063rem;
+                                    opacity: 0;
+                                    visibility: hidden;
+                                    width: calc(100% + 0.125rem);
+                                    height: auto;
+                                    z-index: 20;
+                                    background: #192F59;
+                                    box-shadow: none;
+                                    border: none;
+                                    > li {
+                                        display: block;
+                                        text-align: left;
+                                        width: 100%;
+                                        > a {
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: flex-start;
+                                            width: 100%;
+                                            min-height: 3.125rem;
+                                            text-align: left;
+                                            background: #fff;
+                                            text-decoration: underline;
+                                            color: #231F20;
+                                            font-size: 1.063rem;
+                                            font-weight: 500;
+                                            padding: 0.8rem 1rem;
+                                            line-height: 1.3;
+                                        }
+                                    }
+                                    &.opensubmenu-level1 {
+                                        opacity: 1;
+                                        visibility: visible;
+                                    }
+                                    .backmenu-btn {
+                                        display: flex;
+                                        padding: 1.5rem 0 1rem 1.5rem;
+                                        color: #fff;
+                                        background: transparent;
+                                        border: none;
+                                        box-shadow: none;
+                                        font-family: inherit;
+                                        font-size: 1.063rem;
+                                        font-weight: 500;
+                                        text-decoration: underline;
+                                        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 14 16" fill="none"><path d="M0 8.125L7.22321 0.901795L13.0157 0.890717L5.79251 8.11392L13.0268 15.3482L7.23286 15.3579L0 8.125Z" fill="white"/></svg>');
+                                        background-repeat: no-repeat;
+                                        background-size: 0.875rem;
+                                        background-position: 0 1.6rem;
+                                    }
+                                }
+                            }
+                        }
+                        .wp-block-buttons {
+                            display: flex;
+                            justify-content: center;
+                            gap: 0;
+                            margin-top: 2rem;
+                            border-top: solid 1px rgba(255,255,255,0.2);
+                            .wp-block-button {
+                                display: inline-flex;
+                                padding-top: 1.5rem;
+                                padding-bottom: 1.5rem;
+                                .wp-block-button__link {
+                                    font-size: 1.063rem;
+                                    font-weight: normal;
+                                    color: #fff;
+                                    background: transparent;
+                                    padding-top: 0;
+                                    padding-right: 1.2rem;
+                                    padding-bottom: 0;
+                                    padding-left: 1.2rem;
+                                    height: auto;
+                                    &:before {
+                                        display: none;
+                                    }
+                                }
+                                &:first-child {
+                                    .wp-block-button__link {
+                                        border-right: solid 1px rgba(255,255,255,0.2);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+body.logged-in.admin-bar {
+    @media (min-width: 768px) {
+        .phf-header-navbar {
+            .phf-header-navbar__menunavigation {
+                .wp-block-navigation__responsive-container {
+                    .phf-header-navbar__searchfield.wp-block-search {
+                        top: 11rem;
+                    }
+                }
+            }
+        }
+    }
+    @media (max-width: 767px) {
+        .menuopen-btn,
+        button[aria-label="Open menu"] {
+            top: 5.3rem;
+        }
+        .phf-header-navbar__menunavigation {
+            .wp-block-navigation__responsive-container {
+                top: 9.5rem;
+            }
+        }
+    }
+}

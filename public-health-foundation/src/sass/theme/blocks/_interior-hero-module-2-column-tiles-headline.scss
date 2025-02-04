@@ -1,0 +1,36 @@
+.phf-interior-hero-module-2-column-tiles-headline {
+    .phf-interior-hero-module-2-column-tiles-headline__columns {
+        gap: 1rem;
+        .wp-block-column {
+            padding-top: 2.5rem;
+            padding-right: 3rem;
+            padding-bottom: 3rem;
+            padding-left: 3rem;
+            background: #FFF2CF;
+            text-align: center;
+            .phf-interior-hero-module-2-column-tiles-headline__heading {
+                font-size: 2.125rem;
+                font-weight: bold;
+                color: #000;
+                margin: 0 0 1rem 0;
+                line-height: 1;
+            }
+            .phf-interior-hero-module-2-column-tiles-headline__copy {
+                font-size: 1.125rem;
+                font-weight: 500;
+                color: #000;
+                margin: 0;
+                line-height: 1.25;
+            }
+        }
+    }
+    @media (min-width: 768px) {
+        .phf-interior-hero-module-2-column-tiles-headline__columns {
+            gap: 1.75rem;
+            .wp-block-column {
+                padding-right: 8rem;
+                padding-left: 8rem;
+            }
+        }
+    }
+}

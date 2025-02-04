@@ -1,0 +1,32 @@
+.phf-related-articles-with-testimonial-wrapper {
+    @media (min-width: 768px) and (max-width: 1024px) {
+        .wp-block-heading {
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
+        }
+    }
+}
+
+.phf-relatedposts-wrapper {
+    position: relative;
+    > .phf-related-articles-with-testimonial-wrapper_list {
+        display: flex;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    @media (min-width: 768px) and (max-width: 1024px) {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    @media (max-width: 767px) {
+        > .phf-related-articles-with-testimonial-wrapper_list {
+            flex-direction: column;
+            > li {
+                .wp-block-buttons:last-child {
+                    display: none;
+                }
+            }
+        }
+    }
+}

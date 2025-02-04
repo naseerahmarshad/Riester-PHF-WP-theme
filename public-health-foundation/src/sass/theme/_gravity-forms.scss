@@ -1,0 +1,124 @@
+// Gravity Forms Wrapper
+.gform_wrapper {
+    border: 1.5px solid #666;
+    padding: 2.25rem;
+    padding: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+    box-shadow: 0px 45px 45px -13px rgba(22, 28, 45, 0.08);
+
+
+    .gform_body {
+        .gform_title {}
+
+        .gform_description {}
+
+        .gform_page {
+
+            // Multi-page Forms
+            .gform_page_title {}
+
+            .gform_page_description {}
+        }
+
+        .gform_fields {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1rem;
+            margin-bottom: 1rem;
+
+            .gfield {
+
+                // Field Label
+                .gfield_label {
+                    color: var(--wp--preset--color--black);
+                    font-family: var(--wp--preset--font-family--primary);
+                    font-size: 18px;
+                    font-weight: 700;
+
+                    .gfield_required_asterisk {
+                        color: #ff0000;
+                    }
+                }
+
+                // Input Container
+                .ginput_container {
+                    border: 1px solid #9C9C9C;
+                    background: #FFF;
+                    display: flex;
+                    flex-direction: column;
+
+                    &.ginput_container_text {
+                        height: 50px;
+                    }
+
+                    &.ginput_container_textarea {}
+
+                    &.ginput_container_select {
+                        height: 50px;
+                        padding: 0;
+                    }
+
+                    &.ginput_container_radio {}
+
+                    &.ginput_container_checkbox {}
+
+                    &.ginput_container_fileupload {}
+                }
+
+                // Field Error Styling
+                &.gfield_error {
+                    .validation_message {}
+                }
+            }
+        }
+    }
+
+    // Form Footer
+    .gform_footer {
+        .gform_button {}
+
+        .gform_next_button {}
+
+        .gform_previous_button {}
+    }
+}
+
+// Gravity Forms Ready Classes for Layouts
+.gf_left_half {}
+
+.gf_right_half {}
+
+.gf_left_third {}
+
+.gf_middle_third {}
+
+.gf_right_third {}
+
+.gf_list_inline {}
+
+.gf_simple_horizontal {}
+
+// Hidden Fields and Misc.
+.gform_hidden {}
+
+.gform_button[type='submit'] {
+    color: #ffffff;
+    background-color: var(--wp--preset--color--light-blue);
+    text-shadow: var(--wp--preset--color--light-blue) 0px 1px 1px;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 55"><path fill="%23192f59" d="M0 0v20.8L235 0z"/></svg>') !important;
+    width: fit-content;
+    max-width: auto;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 25.5px;
+    padding-left: 46px;
+    padding-right: 46px;
+
+    &:hover {
+        background-color: var(--wp--preset--color--dark-blue);
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 55"><path fill="%23294884" d="M0 0v20.8L235 0z"/></svg>') !important;
+
+    }
+}

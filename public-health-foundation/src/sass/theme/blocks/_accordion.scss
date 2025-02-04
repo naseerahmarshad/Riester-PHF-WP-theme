@@ -1,0 +1,61 @@
+.block-accordion {
+    details {
+        summary.tab-heading-wrapper {
+            background-color: #f0f0f0; // Gray background for inactive state
+            list-style: none;
+            cursor: pointer;
+            justify-content: space-between;
+            padding-top: 6px;
+            padding-left: clamp(0.5rem, -0.2043rem + 2.6829vw, 1.875rem);
+            padding-right: clamp(0.5rem, -0.2043rem + 2.6829vw, 1.875rem);
+            padding-bottom: 6px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+
+            // Remove default marker for Webkit browsers
+            &::-webkit-details-marker {
+                display: none;
+            }
+
+            .tab-heading {
+                color: #000;
+                font-size: 18px;
+                font-style: normal;
+            }
+
+            svg {
+                width: 20px;
+                height: 17px;
+                transform: rotate(0deg);
+                transition: transform 5s ease;
+            }
+        }
+
+        &[open] {
+            summary.tab-heading-wrapper {
+                background-color: var(--wp--preset--color--light-yellow); // Light yellow background for active state
+                
+                svg {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        .tab-content {
+            padding: 1rem 1rem 2rem 1rem;
+            font-size: 1rem;
+            line-height: 1.75rem;
+            color: #000;
+            overflow: hidden;
+            height: 0;
+            opacity: 0;
+            transition: height 5s ease, opacity 5s ease;
+        }
+
+        &[open] .tab-content {
+            height: auto;
+            opacity: 1;
+        }
+    }
+}

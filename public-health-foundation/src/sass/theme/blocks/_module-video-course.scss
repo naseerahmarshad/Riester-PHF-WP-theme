@@ -1,0 +1,162 @@
+.phf-module-video-course-wrapper {
+    position: relative;
+    padding: 0;
+    background: rgba(54,101,191,0.1);
+    .phf-module-video-course-wrapper__titleformobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        font-size: 2.125rem;
+        font-weight: bold;
+        line-height: 3rem;
+        color: #000;
+        padding: 2rem 0 0.5rem 0;
+    }
+    > .swiper-slider-slider {
+        padding: 0;
+        margin: 0;
+        .phf-module-video-course-wrapper__slider {
+            margin: 0;
+            .swiper-wrapper {
+                margin: 0;
+                padding: 0;
+                .swiper-slide {
+                    margin: 0;
+                    padding: 0;
+                    .wp-block-embed-youtube {
+                        width: 100%;
+                        max-width: none;
+                        height: auto;
+                        margin: 0;
+                    }
+                }
+            }
+            .phf-module-video-course-wrapper__swiperpagination-navigation {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                margin-top: 2rem;
+                margin-right: auto;
+                margin-left: auto;
+                gap: 1.5rem;
+                width: auto;
+                max-width: none;
+                height: auto;
+                .swiper-pagination {
+                    display: inline-flex;
+                    position: relative;
+                    justify-content: center;
+                    align-items: center;
+                    width: auto !important;
+                    max-width: none !important;
+                    margin: 0 2rem;
+                    bottom: 0 !important;
+                    gap: 0.5rem;
+                    > span {
+                        background: #294884;
+                        opacity: 0.4;
+                        width: 1.25rem;
+                        height: 1.25rem;
+                    }
+                    > .swiper-pagination-bullet-active {
+                        background: #294884;
+                        opacity: 1;
+                    }
+                }
+                .swiper-button-next,
+                .swiper-button-prev {
+                    display: none;
+                }
+            }
+        }
+    }
+    .phf-module-video-course-wrapper__secondaryslider {
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 1rem;
+        .swiper-slider-section {
+            display: block;
+            margin-top: 3.5rem;
+            padding-right: 1.625rem;
+            padding-left: 1.625rem;
+            width: auto;
+            max-width: none;
+            .swiper-slide {
+                font-size: 1.125rem;
+                line-height: 2rem;
+                color: #000;
+                h1,h2,h3,h4,h5,h6 {
+                    font-size: 1.625rem;
+                    margin-bottom: 1.5rem;
+                    font-weight: 600;
+                    color: #000;
+                }
+                ul {
+                    margin-left: 1.2rem;
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+    @media (min-width: 768px) {
+        padding: 1rem;
+        background: rgba(41,72,132,0.08);
+        .phf-module-video-course-wrapper__titleformobile {
+            display: none;
+        }
+        > .swiper-slider-slider {
+            margin-top: 0;
+            padding-top: 0;
+            .phf-module-video-course-wrapper__slider {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                .phf-module-video-course-wrapper__swiperpagination-navigation {
+                    .swiper-button-next,
+                    .swiper-button-prev {
+                        display: inline-flex;
+                        position: relative;
+                        background: transparent;
+                        border-radius: 0;
+                        width: 1.25rem;
+                        height: 1.25rem;
+                        margin: 0 !important;
+                        top: 0;
+                        padding: 0;
+                        left: 0;
+                        right: 0;
+                        max-width: none;
+                        &.swiper-button-next {
+                            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="23" viewBox="0 0 15 23" fill="none"><path d="M14.5998 11.3175L6.53835 0.34241L0.0736207 0.325579L8.13507 11.3007L0.0612553 22.2927L6.52757 22.3073L14.5998 11.3175Z" fill="%23294884"/></svg>') no-repeat center center;
+                            background-size: contain;
+                        }
+                        &.swiper-button-prev {
+                            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="23" viewBox="0 0 15 23" fill="none"><path d="M-0.000195128 11.6825L8.06126 22.6576L14.526 22.6744L6.46454 11.6993L14.5384 0.707349L8.07204 0.692674L-0.000195128 11.6825Z" fill="%23294884"/></svg>') no-repeat center center;
+                            background-size: contain;
+                        }
+                        &:after {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+        .phf-module-video-course-wrapper__secondaryslider {
+            margin-block-start: 2.1rem;
+            padding-bottom: 1.5rem;
+            .swiper-slider-section {
+                display: block;
+                margin-top: 0;
+                padding-right: 0;
+                padding-left: 0;
+                .swiper-slide {
+                    h1,h2,h3,h4,h5,h6 {
+                        font-size: 1.75rem;
+                    }
+                }
+            }
+        }
+    }
+}

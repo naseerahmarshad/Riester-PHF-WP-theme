@@ -1,0 +1,457 @@
+/* dev notes: all clamps use the minimum viewport width 420 and maximum viewport width of 1240 Global styles for project development
+*/
+* {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+}
+::marker {
+  all:unset!important;
+}
+
+
+.font-sans {
+  font-family: "Roboto", sans-serif !important;
+}
+
+p, .base {
+  font-family: "Roboto", sans-serif !important;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+/* Font Size and Line Height */
+h1, .font-h1 {
+  font-size: 67px;
+  font-size: clamp(2.5rem, 1.6357rem + 3.2927vw, 4.1875rem);
+  line-height: 75px;
+  line-height: clamp(2.875rem, 1.9466rem + 3.5366vw, 4.6875rem);
+}
+
+.\!font-h1,
+.font-h1-imp {
+  font-size: 67px !important;
+  font-size: clamp(2.5rem, 1.6357rem + 3.2927vw, 4.1875rem) !important;
+  line-height: 75px !important;
+  line-height: clamp(2.875rem, 1.9466rem + 3.5366vw, 4.6875rem) !important;
+}
+
+h2, .font-h2 {
+  font-size: 48px;
+  font-size: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+  line-height: 54px;
+  line-height: clamp(2.375rem, 1.8628rem + 1.9512vw, 3.375rem);
+}
+
+.\!font-h2,
+.font-h2-imp {
+  font-size: 48px !important;
+  font-size: clamp(2rem, 1.4878rem + 1.9512vw, 3rem) !important;
+  line-height: 54px !important;
+  line-height: clamp(2.375rem, 1.8628rem + 1.9512vw, 3.375rem) !important;
+}
+
+h3, .font-h3 {
+  font-size: 34px;
+  font-size: clamp(1.625rem, 1.3689rem + 0.9756vw, 2.125rem);
+  line-height: 48px;
+  line-height: clamp(2.125rem, 1.997rem + 0.4878vw, 2.375rem);
+  font-weight: 700;
+}
+
+.\!font-h3,
+.font-h3-imp {
+  font-size: 34px !important;
+  line-height: 48px !important;
+}
+
+h4, .font-h4 {
+  font-size: 26px;
+  font-size: clamp(1.375rem, 1.247rem + 0.4878vw, 1.625rem);
+  line-height: 34px;
+  line-height: clamp(1.875rem, 1.747rem + 0.4878vw, 2.125rem);
+}
+
+
+.\!font-h4,
+.font-h4-imp {
+  font-size: 26px !important;
+  line-height: 34px !important;
+}
+
+h5{
+  font-size: 24px;
+  font-size: clamp(1.125rem, 0.9329rem + 0.7317vw, 1.5rem);
+}
+
+.font-main-nav {
+  font-size: 22px;
+  line-height: 25px;
+}
+
+.\!font-main-nav,
+.font-main-nav-imp {
+  font-size: 22px !important;
+  line-height: 25px !important;
+}
+
+.font-hero-body {
+  font-size: 24px;
+  line-height: 38px;
+}
+
+.\!font-hero-body,
+.font-hero-body-imp {
+  font-size: 24px !important;
+  line-height: 38px !important;
+}
+
+.font-body-copy {
+  font-size: 18px;
+  line-height: 32px;
+}
+
+.\!font-body-copy,
+.font-body-copy-imp {
+  font-size: 18px !important;
+  line-height: 32px !important;
+}
+
+.font-body-small {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.\!font-body-small,
+.font-body-small-imp {
+  font-size: 16px !important;
+  line-height: 24px !important;
+}
+
+.font-sidebar {
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.\!font-sidebar,
+.font-sidebar-imp {
+  font-size: 18px !important;
+  line-height: 24px !important;
+}
+
+.font-quotes {
+  font-size: 196px;
+  line-height: 54px;
+}
+
+.\!font-quotes,
+.font-quotes-imp {
+  font-size: 196px !important;
+  line-height: 54px !important;
+}
+
+.font-testimonial {
+  font-size: 25px;
+  line-height: 32px;
+}
+
+.\!font-testimonial,
+.font-testimonial-imp {
+  font-size: 25px !important;
+  line-height: 32px !important;
+}
+
+.font-form-header {
+  font-size: 18px;
+  line-height: 35.7px;
+}
+
+.\!font-form-header,
+.font-form-header-imp {
+  font-size: 18px !important;
+  line-height: 35.7px !important;
+}
+
+.font-form-copy {
+  font-size: 17px;
+  line-height: 21px;
+}
+
+.\!font-form-copy,
+.font-form-copy-imp {
+  font-size: 17px !important;
+  line-height: 21px !important;
+}
+
+.font-button {
+  font-size: 20px;
+  line-height: 25.5px;
+}
+
+.\!font-button,
+.font-button-imp {
+  font-size: 20px !important;
+  line-height: 25.5px !important;
+}
+
+.font-disclaimer {
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.\!font-disclaimer,
+.font-disclaimer-imp {
+  font-size: 15px !important;
+  line-height: 20px !important;
+}
+
+.font-footer {
+  font-size: 15px;
+  line-height: 26px;
+}
+
+.\!font-footer,
+.font-footer-imp {
+  font-size: 15px !important;
+  line-height: 26px !important;
+}
+
+.font-event-headlines {
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.\!font-event-headlines,
+.font-event-headlines-imp {
+  font-size: 22px !important;
+  line-height: 28px !important;
+}
+
+.font-event-months {
+  font-size: 24px;
+  line-height: 25.5px;
+}
+
+.\!font-event-months,
+.font-event-months-imp {
+  font-size: 24px !important;
+  line-height: 25.5px !important;
+}
+
+.font-event-days {
+  font-size: 44px;
+  line-height: 53.5px;
+}
+
+.\!font-event-days,
+.font-event-days-imp {
+  font-size: 44px !important;
+  line-height: 53.5px !important;
+}
+
+.font-event-locations {
+  font-size: 20px;
+  line-height: 34px;
+}
+
+.\!font-event-locations,
+.font-event-locations-imp {
+  font-size: 20px !important;
+  line-height: 34px !important;
+}
+
+/* Text Balance */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* You might also want line-wrapping utilities */
+.text-wrap {
+  text-wrap: wrap;
+}
+
+.text-nowrap {
+  text-wrap: nowrap;
+}
+
+/* With !important modifier versions */
+.\!text-balance {
+  text-wrap: balance !important;
+}
+
+.\!text-pretty {
+  text-wrap: pretty !important;
+}
+
+.\!text-wrap {
+  text-wrap: wrap !important;
+}
+
+.\!text-nowrap {
+  text-wrap: nowrap !important;
+}
+
+//overrides using wordpress vars
+.px-wp {
+  padding-right: calc(var(--wp--style--root--padding-right)* 1);
+  padding-left: calc(var(--wp--style--root--padding-left)* 1);
+}
+
+.vw-ml-0 {
+  margin-left: calc(var(--wp--style--root--padding-right) * -1) !important;
+}
+
+.vw-mr-0 {
+  margin-right: calc(var(--wp--style--root--padding-right) * -1) !important;
+}
+
+.vw-mx-0 {
+  margin-left: calc(var(--wp--style--root--padding-right) * -1) !important;
+  margin-right: calc(var(--wp--style--root--padding-right) * -1) !important;
+}
+
+/* Responsive Spacing Utilities
+ * Viewport constraints:
+ * - Minimum viewport width: 420px
+ * - Maximum viewport width: 1240px
+ *
+ * Size scales (in pixels):
+ * - 48-32: max 48px (3rem), min 32px (2rem)
+ * - 36-24: max 36px (2.25rem), min 24px (1.5rem)
+ * - 64-48: max 64px (4rem), min 48px (3rem)
+ * - 32-16: max 32px (2rem), min 16px (1rem)
+ */
+
+/* ========== Gaps ========== */
+.gap-48-32 {
+  gap: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+}
+
+.gap-36-24 {
+  gap: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+}
+
+.gap-64-48 {
+  gap: clamp(3rem, 2.5rem + 2vw, 4rem);
+}
+
+.gap-32-16 {
+  gap: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+}
+
+/* ========== Padding Top ========== */
+.pt-48-32 {
+  padding-top: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+}
+
+.pt-36-24 {
+  padding-top: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+}
+
+.pt-64-48 {
+  padding-top: clamp(3rem, 2.5rem + 2vw, 4rem);
+}
+
+.pt-32-16 {
+  padding-top: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+}
+
+/* ========== Padding Bottom ========== */
+.pb-48-32 {
+  padding-bottom: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+}
+
+.pb-36-24 {
+  padding-bottom: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+}
+
+.pb-64-48 {
+  padding-bottom: clamp(3rem, 2.5rem + 2vw, 4rem);
+}
+
+.pb-32-16 {
+  padding-bottom: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+}
+
+/* ========== Padding Left ========== */
+.pl-48-32 {
+  padding-left: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+}
+
+.pl-36-24 {
+  padding-left: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+}
+
+.pl-64-48 {
+  padding-left: clamp(3rem, 2.5rem + 2vw, 4rem);
+}
+
+.pl-32-16 {
+  padding-left: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+}
+
+/* ========== Padding Right ========== */
+.pr-48-32 {
+  padding-right: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+}
+
+.pr-36-24 {
+  padding-right: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+}
+
+.pr-64-48 {
+  padding-right: clamp(3rem, 2.5rem + 2vw, 4rem);
+}
+
+.pr-32-16 {
+  padding-right: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+}
+
+/* ========== Padding X (Left & Right) ========== */
+.px-48-32 {
+  padding-left: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+  padding-right: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+}
+
+.px-36-24 {
+  padding-left: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+  padding-right: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+}
+
+.px-64-48 {
+  padding-left: clamp(3rem, 2.5rem + 2vw, 4rem);
+  padding-right: clamp(3rem, 2.5rem + 2vw, 4rem);
+}
+
+.px-32-16 {
+  padding-left: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+  padding-right: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+}
+
+/* ========== Padding Y (Top & Bottom) ========== */
+.py-48-32 {
+  padding-top: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+  padding-bottom: clamp(2rem, 1.4878rem + 1.9512vw, 3rem);
+}
+
+.py-36-24 {
+  padding-top: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+  padding-bottom: clamp(1.5rem, 1.1159rem + 1.4634vw, 2.25rem);
+}
+
+.py-64-48 {
+  padding-top: clamp(3rem, 2.5rem + 2vw, 4rem);
+  padding-bottom: clamp(3rem, 2.5rem + 2vw, 4rem);
+}
+
+.py-32-16 {
+  padding-top: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+  padding-bottom: clamp(1rem, 0.8rem + 0.5vw, 2rem);
+}

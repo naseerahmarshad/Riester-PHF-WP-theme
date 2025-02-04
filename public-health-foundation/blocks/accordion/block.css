@@ -1,0 +1,23 @@
+/* Default hidden state */
+.phf-accordion__content {
+    display: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease; /* Optional for smooth animations */
+}
+
+/* Expanded state */
+.phf-accordion__content.open {
+    display: block;
+    max-height: 1000px; /* A value large enough to fit the content */
+}
+
+.phf-accordion__title {
+    cursor: pointer; /* Changes the cursor to a pointer */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Smooth transitions */
+}
+
+.phf-accordion__title:hover {
+    background-color: #f0f0f0; /* Light background on hover */
+    color: #333; /* Slightly darker text color */
+}

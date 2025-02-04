@@ -1,0 +1,11 @@
+.hero-image-with-headline-and-cta {
+    display: flex;
+    align-items: center;
+    height: 42rem;
+    overflow: hidden;
+    
+    .container {
+        max-width: var(--wp--style--global--wide-size);
+        margin: 0 auto;
+    }
+}

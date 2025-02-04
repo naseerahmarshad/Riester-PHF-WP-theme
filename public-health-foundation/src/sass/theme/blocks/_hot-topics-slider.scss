@@ -1,0 +1,185 @@
+.phf-hot-topics-slider-wrapper {
+    position: relative;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    overflow: hidden;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    .phf-hot-topics-slider-wrapper__innerwrap {
+        display: block;
+        overflow: visible;
+        > .wp-block-heading {
+            font-size: clamp(2rem, 2.5vw, 3rem);
+            line-height: 3.6rem;
+            text-align: center;
+            font-weight: bold;
+            color: #161C2D;
+            margin-top: 0;
+            margin-bottom: 2.5rem;
+        }
+        .phf-hot-topics-slider-wrapper__slidergroup {
+            display: block;
+            width: 100%;
+            max-width: none;
+            overflow: visible;
+            .phf-hot-topics-slider-wrapper__swiper-slider {
+                display: block;
+                margin-top: 2.5rem;
+                margin-bottom: 0;
+                width: 100%;
+                max-width: none;
+                overflow: visible;
+                .block-hot-topics-slider {
+                    overflow: visible;
+                }
+                .phf-hot-topics-swiper-slider {
+                    overflow: visible;
+                    .swiper-wrapper {
+                        overflow: visible;
+                        height: auto !important;
+                        .swiper-slide {
+                            display: flex;
+                            height: inherit;
+                            position: relative;
+                            .phf-hot-topics-slider-wrapper__eventcard {
+                                display: block;
+                                overflow: hidden;
+                                margin: 0;
+                                padding: 0;
+                                color: #fff;
+                                z-index: 2;
+                                padding: 4.25rem 1.5rem 7rem 1.5rem;
+                                height: 100%;
+                                .phf-hot-topics-slider-wrapper__eventcard__title {
+                                    font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+                                    line-height: 2.125rem;
+                                    font-weight: bold;
+                                    text-align: center;
+                                    a {
+                                        font-size: inherit;
+                                        text-decoration: none;
+                                    }
+                                }
+                                .phf-hot-topics-slider-wrapper__topic {
+                                    display: flex;
+                                    justify-content: flex-end;
+                                    position: absolute;
+                                    right: 0;
+                                    bottom: 1.25rem;
+                                    left: 0;
+                                    z-index: 1;
+                                    span {
+                                        font-family: 'Roboto Condensed Regular', sans-serif !important;
+                                        font-size: 1.25rem;
+                                        line-height: 2.125rem;
+                                        color: #192F59;
+                                        background: #EDA621;
+                                        border-radius: 5px 0px 0px 5px;
+                                        box-shadow: -5px 8px 10px 0px rgba(0, 0, 0, 0.25);
+                                        padding: 1rem 1.5rem;
+                                    }
+                                }
+                                .phf-hot-topics-slider-wrapper__background {
+                                    display: block;
+                                    position: absolute;
+                                    top: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    left: 0;
+                                    overflow: hidden;
+                                    background: #192F59;
+                                    z-index: -1;
+                                    img {
+                                        display: block;
+                                        width: 100%;
+                                        height: 100%;
+                                        object-fit: cover;
+                                        opacity: 0.30;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .swiper-pagination {
+                    display: none;
+                }
+                .phf-hot-topics-slider-wrapper__navigations {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 1.875rem;
+                    position: relative;
+                    margin-top: 3.625rem;
+                    .swiper-button-next,
+                    .swiper-button-prev {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 2.75rem;
+                        height: 2.75rem;
+                        border: solid 0.125rem #192F59;
+                        border-radius: 50%;
+                        background: #fff;
+                        position: relative;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        &:after {
+                            display: none;
+                        }
+                        &.swiper-button-next {
+                            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="21" height="16" viewBox="0 0 21 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.8281 0.928881L20.1921 7.29284C20.5826 7.68337 20.5826 8.31653 20.1921 8.70706L13.8281 15.071C13.4376 15.4615 12.8045 15.4615 12.4139 15.071C12.0234 14.6805 12.0234 14.0473 12.4139 13.6568L17.0708 8.99995L0.627929 8.99995L0.627929 6.99995L17.0708 6.99995L12.4139 2.34309C12.0234 1.95257 12.0234 1.31941 12.4139 0.928881C12.8045 0.538356 13.4376 0.538356 13.8281 0.928881Z" fill="%23192F59"/></svg>');
+                            background-repeat: no-repeat;
+                            background-size: 1.25rem;
+                            background-position: center center;
+                        }
+                        &.swiper-button-prev {
+                            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="21" height="16" viewBox="0 0 21 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.2285 15.0709L0.864536 8.70692C0.474012 8.31639 0.474012 7.68323 0.864536 7.2927L7.2285 0.928741C7.61902 0.538216 8.25219 0.538216 8.64271 0.928741C9.03324 1.31926 9.03324 1.95243 8.64271 2.34295L3.98586 6.99981L20.4287 6.99981V8.99981L3.98586 8.99981L8.64271 13.6567C9.03324 14.0472 9.03324 14.6804 8.64271 15.0709C8.25219 15.4614 7.61902 15.4614 7.2285 15.0709Z" fill="%23192F59"/></svg>');
+                            background-repeat: no-repeat;
+                            background-size: 1.25rem;
+                            background-position: center center;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @media (min-width: 768px) {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        > .wp-block-heading {
+            font-size: 3rem;
+            line-height: 3.8rem;
+        }
+    }
+    @media (max-width: 767px) {
+        padding-right: 1.5rem !important;
+        padding-left: 1.5rem !important;
+        .phf-hot-topics-slider-wrapper__innerwrap {
+            .phf-hot-topics-slider-wrapper__slidergroup {
+                .phf-hot-topics-slider-wrapper__swiper-slider {
+                    .phf-hot-topics-swiper-slider {
+                        width: 90%;
+                        .swiper-wrapper {
+                            .swiper-slide {
+                                .phf-hot-topics-slider-wrapper__eventcard {
+                                    padding-bottom: 9rem;
+                                    .phf-hot-topics-slider-wrapper__eventcard__title {
+                                        line-height: 1.75rem;
+                                    }
+                                    .phf-hot-topics-slider-wrapper__topic {
+                                        span {
+                                            padding: 1rem 0.7rem;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
