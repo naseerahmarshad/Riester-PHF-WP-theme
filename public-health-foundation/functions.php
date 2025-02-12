@@ -805,13 +805,11 @@ add_action('wp_enqueue_scripts', 'enqueue_swiperslide_block');
 
 // Header Navbar scripts
 function header_navbarscript() {
-    // Check if we are in the Block Editor or Frontend
-    // Inline JavaScript
     $inline_script = "
         jQuery(document).ready(function ($) {
             $('.phf-header-navbar').append('<div class=\"navbarsearch-btn\"></div>');
             $('.phf-header-navbar__secondrow').append('<button class=\"menuopen-btn\"></button>');
-            
+
             $('.navbarsearch-btn').click(function() {
                 $('.phf-header-navbar__searchfield.wp-block-search').toggleClass('phf-header-navbar__searchfield-active');
                 $('.navbarsearch-btn').toggleClass('navbarsearch-btn-opened');
@@ -822,16 +820,25 @@ function header_navbarscript() {
                 $('.wp-block-navigation__responsive-container').toggleClass('fullmobilemenu-open');
             });
 
-            $('.wp-block-navigation__submenu-icon').click(function () {
-                var \$submenu = $(this).parent().find('ul:first');
+            // Adding three dots to the Search placeholder
+            $('.phf-header-navbar__menunavigation .wp-block-search__input').attr('placeholder', 'Search...');
 
-                if (\$submenu.find('.backmenu-btn').length === 0) {
-                    \$submenu.prepend('<button class=\"backmenu-btn\">Back</button>');
+            // Fix for submenu toggle on click
+            $('.wp-block-navigation__submenu-icon').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation(); // Prevents event bubbling
+
+                var \$submenu = $(this).closest('li').children('ul').first(); // Gets only the immediate child <ul>
+
+                if (\$submenu.length) {
+                    if (\$submenu.find('.backmenu-btn').length === 0) {
+                        \$submenu.prepend('<button class=\"backmenu-btn\">Back</button>');
+                    }
+                    \$submenu.toggleClass('opensubmenu-level1');
                 }
-
-                \$submenu.addClass('opensubmenu-level1');
             });
 
+            // Back button functionality
             $(document).on('click', '.backmenu-btn', function () {
                 $(this).parent().removeClass('opensubmenu-level1');
             });
@@ -843,6 +850,7 @@ function header_navbarscript() {
 }
 add_action('enqueue_block_editor_assets', 'header_navbarscript'); // For Block Editor
 add_action('wp_enqueue_scripts', 'header_navbarscript'); // For Frontend
+
 
 
 // MODULE: Video Course styles
@@ -1069,3 +1077,28 @@ function module_3_item_content_feature_style_enqueue_editor_styles() {
 
 add_action('wp_enqueue_scripts', 'module_3_item_content_feature_style_enqueue'); // Frontend
 add_action('enqueue_block_editor_assets', 'module_3_item_content_feature_style_enqueue_editor_styles'); // Editor
+
+
+// 2/3 Image
+function two_three_image_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'two-three-imagestyles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_two-three-image.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function two_three_image_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'two-three-imagestyles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_two-three-image.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'two_three_image_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'two_three_image_style_enqueue_editor_styles'); // Editor

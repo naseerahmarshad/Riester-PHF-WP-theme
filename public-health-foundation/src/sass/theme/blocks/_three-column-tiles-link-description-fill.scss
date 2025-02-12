@@ -40,11 +40,15 @@
                 gap: 1rem;
             }
             p {
+                font-size: 1rem;
+                font-weight: normal;
+                line-height: 1.5rem;
                 margin: 0;
                 margin-block-start: 0;
-                line-height: 1.5;
                 strong {
+                    font-size: 1.125rem;
                     font-weight: 600;
+                    line-height: 1.625rem;
                     text-decoration: underline;
                 }
             }

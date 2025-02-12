@@ -20,7 +20,7 @@
                 a, img {
                     display: block;
                     width: 100%;
-                    height: 17rem;
+                    height: 13.875rem;
                     object-fit: cover;
                 }
                 a {
@@ -30,6 +30,7 @@
                 }
             }
             .wp-block-latest-posts__post-title {
+                display: flex;
                 font-size: 1.625rem;
                 font-weight: bold;
                 color: #000;
@@ -51,9 +52,13 @@
                 font-size: 1.125rem;
                 color: #000;
                 font-weight: normal;
-                line-height: 1.6;
+                line-height: 2rem;
                 margin-top: 1rem;
                 margin-bottom: 1.875rem;
+                strong {
+                    display: inline-flex;
+                    margin-top: 1rem;
+                }
             }
             .wp-block-button__link {
                 background: #294884;
@@ -80,6 +85,12 @@
                 margin-bottom: 0;
                 padding-bottom: 3.438rem;
                 position: relative;
+                .wp-block-latest-posts__post-title,
+                .wp-block-latest-posts__post-excerpt,
+                .wp-block-buttons {
+                    padding-left: 0.8rem;
+                    padding-right: 0.8rem;
+                }
                 .wp-block-buttons {
                     display: block;
                     position: absolute;
