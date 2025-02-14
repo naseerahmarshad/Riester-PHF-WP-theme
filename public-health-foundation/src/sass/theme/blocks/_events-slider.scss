@@ -192,9 +192,11 @@
     @media (min-width: 768px) {
         padding-left: 0 !important;
         padding-right: 0 !important;
-        > .wp-block-heading {
-            font-size: 3rem;
-            line-height: 3.375rem;
+        .phf-events-slider-wrapper__innerwrap {
+            > .wp-block-heading {
+                font-size: 3rem;
+                line-height: 3.375rem;
+            }
         }
     }
     @media (max-width: 767px) {

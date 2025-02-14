@@ -183,6 +183,12 @@ function register_acf_blocks__related_posts(){
     register_block_type(__DIR__ . '/blocks/related-posts');
 }
 
+// Four Column Logo / CTAs Slider ACF Blocks
+add_action('init', 'register_acf_blocks__logo_cta_slider');
+function register_acf_blocks__logo_cta_slider(){
+    register_block_type(__DIR__ . '/blocks/logo-cta-slider');
+}
+
 // HEADER NAVBAR styles
 function headernavbar_style_enqueue() {
     // Frontend styles
@@ -1102,3 +1108,153 @@ function two_three_image_style_enqueue_editor_styles() {
 
 add_action('wp_enqueue_scripts', 'two_three_image_style_enqueue'); // Frontend
 add_action('enqueue_block_editor_assets', 'two_three_image_style_enqueue_editor_styles'); // Editor
+
+
+
+// Events Slider
+function events_slider_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'events-slider-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_events-slider.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function events_slider_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'events-slider-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_events-slider.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'events_slider_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'events_slider_style_enqueue_editor_styles'); // Editor
+
+
+// Register Custom Post Type Events
+function create_events_cpt() {
+
+    $labels = array(
+        'name' => _x( 'Events', 'Post Type General Name', 'events' ),
+        'singular_name' => _x( 'Event', 'Post Type Singular Name', 'events' ),
+        'menu_name' => _x( 'Events', 'Admin Menu text', 'events' ),
+        'name_admin_bar' => _x( 'Event', 'Add New on Toolbar', 'events' ),
+        'archives' => __( 'Event Archives', 'events' ),
+        'attributes' => __( 'Event Attributes', 'events' ),
+        'parent_item_colon' => __( 'Parent Event:', 'events' ),
+        'all_items' => __( 'All Events', 'events' ),
+        'add_new_item' => __( 'Add New Event', 'events' ),
+        'add_new' => __( 'Add New', 'events' ),
+        'new_item' => __( 'New Event', 'events' ),
+        'edit_item' => __( 'Edit Event', 'events' ),
+        'update_item' => __( 'Update Event', 'events' ),
+        'view_item' => __( 'View Event', 'events' ),
+        'view_items' => __( 'View Events', 'events' ),
+        'search_items' => __( 'Search Event', 'events' ),
+        'not_found' => __( 'Not found', 'events' ),
+        'not_found_in_trash' => __( 'Not found in Trash', 'events' ),
+        'featured_image' => __( 'Featured Image', 'events' ),
+        'set_featured_image' => __( 'Set featured image', 'events' ),
+        'remove_featured_image' => __( 'Remove featured image', 'events' ),
+        'use_featured_image' => __( 'Use as featured image', 'events' ),
+        'insert_into_item' => __( 'Insert into Event', 'events' ),
+        'uploaded_to_this_item' => __( 'Uploaded to this Event', 'events' ),
+        'items_list' => __( 'Events list', 'events' ),
+        'items_list_navigation' => __( 'Events list navigation', 'events' ),
+        'filter_items_list' => __( 'Filter Events list', 'events' ),
+    );
+    $args = array(
+        'label' => __( 'Event', 'events' ),
+        'description' => __( 'Events for PHF', 'events' ),
+        'labels' => $labels,
+        'menu_icon' => 'dashicons-calendar-alt',
+        'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'author', 'comments', 'trackbacks', 'page-attributes', 'post-formats', 'custom-fields'),
+        'taxonomies' => array(),
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_position' => 5,
+        'show_in_admin_bar' => true,
+        'show_in_nav_menus' => true,
+        'can_export' => true,
+        'has_archive' => true,
+        'hierarchical' => false,
+        'exclude_from_search' => false,
+        'show_in_rest' => true,
+        'publicly_queryable' => true,
+        'capability_type' => 'post',
+    );
+    register_post_type( 'events', $args );
+
+}
+add_action( 'init', 'create_events_cpt', 0 );
+
+
+
+// Create Shortcode eventslider_shortcode
+// Shortcode: [eventslider_shortcode]
+function create_eventslider_shortcode($attr)
+{
+    ob_start();
+
+    // Custom WP query for 'eventslider'
+    $args_eventsliderquery = array(
+        'post_type'      => 'events',
+        'posts_per_page' => 20,
+        'order'          => 'DESC',
+    );
+
+    $eventsliderquery = new WP_Query($args_eventsliderquery); ?>
+
+    <section class="phf-events-slider-wrapper__swiper-slider">
+        <div class="swiper-slider-slider">
+            <div class="swiper phf-events-swiper-slider">
+                <div class="swiper-wrapper">
+                    <?php if ($eventsliderquery->have_posts()) : ?>
+                        <?php while ($eventsliderquery->have_posts()) : $eventsliderquery->the_post(); ?>
+                            <div class="swiper-slide">
+                                <div class="phf-events-slider-wrapper__eventcard">
+                                    <h3 class="phf-events-slider-wrapper__eventcard__title">
+                                        <?php the_title(); ?>
+                                    </h3>
+                                    <div class="phf-events-slider-wrapper__dates-location">
+                                        <div class="phf-events-slider-wrapper__location">
+                                            <?php echo esc_html(get_field('location')); ?>
+                                        </div>
+                                        <div class="phf-events-slider-wrapper__dates">
+                                            <h4><?php echo esc_html(get_field('month')); ?></h4>
+                                            <h3><?php echo esc_html(get_field('event_dates')); ?></h3>
+                                        </div>
+                                    </div>
+                                    <div class="phf-events-slider-wrapper__background">
+                                        <?php $background = get_field('background'); ?>
+                                        <?php if ($background) : ?>
+                                            <img src="<?php echo esc_url($background['url']); ?>" alt="<?php echo esc_attr($background['alt']); ?>" />
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php else : ?>
+                        <p>No events found.</p>
+                    <?php endif; ?>
+                    <?php wp_reset_postdata(); ?>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="phf-events-slider-wrapper__navigations">
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<?php
+    return ob_get_clean();
+}
+add_shortcode('eventslider_shortcode', 'create_eventslider_shortcode');

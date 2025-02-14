@@ -12,6 +12,7 @@
         margin-top: 0;
         margin-bottom: 2rem;
         line-height: 3rem;
+        letter-spacing: -0.043rem;
     }
     .swiper-slider-section {
         margin-block-start: 0;
@@ -29,16 +30,16 @@
                     align-items: center;
                     flex-direction: column;
                     padding-top: 1.5rem;
-                    padding-right: 1.5rem;
+                    padding-right: 0.5rem;
                     padding-bottom: 1.5rem;
-                    padding-left: 1.5rem;
+                    padding-left: 0.5rem;
                     border: solid 1px #C2C2C2;
                     height: 13.438rem;
                     text-align: center;
                     img {
                         display: block;
-                        width: 100%;
-                        height: 3rem;
+                        width: 85%;
+                        height: 5rem;
                         margin-left: auto;
                         margin-right: auto;
                         object-fit: contain;
@@ -48,6 +49,7 @@
                         display: block;
                         color: #294884;
                         text-decoration: underline;
+                        font-size: 1.125rem;
                         line-height: 2rem;
                         a {
                             color: inherit;
