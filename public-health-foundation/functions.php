@@ -848,6 +848,17 @@ function header_navbarscript() {
             $(document).on('click', '.backmenu-btn', function () {
                 $(this).parent().removeClass('opensubmenu-level1');
             });
+
+            //Add the wp-block-button__link__active class to the active link when the same webpage is opened
+            // Get the current page URL
+            var currentURL = window.location.href;
+
+            // Loop through all button links and check if href matches current URL
+            $('.wp-block-button a').each(function () {
+                if ($(this).attr('href') === currentURL) {
+                    $(this).addClass('wp-block-button__link__active');
+                }
+            });
         });
     ";
 
@@ -1258,3 +1269,28 @@ function create_eventslider_shortcode($attr)
     return ob_get_clean();
 }
 add_shortcode('eventslider_shortcode', 'create_eventslider_shortcode');
+
+
+// MODULE: In-Body Page NAV
+function in_body_page_nav_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'in-body-page-nav-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_in-body-page-nav.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function in_body_page_nav_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'in-body-page-nav-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_in-body-page-nav.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'in_body_page_nav_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'in_body_page_nav_style_enqueue_editor_styles'); // Editor
