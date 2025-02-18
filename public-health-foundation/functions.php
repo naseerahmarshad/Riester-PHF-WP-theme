@@ -1294,3 +1294,146 @@ function in_body_page_nav_style_enqueue_editor_styles() {
 
 add_action('wp_enqueue_scripts', 'in_body_page_nav_style_enqueue'); // Frontend
 add_action('enqueue_block_editor_assets', 'in_body_page_nav_style_enqueue_editor_styles'); // Editor
+
+
+// [alternating_list] shortcode
+function alternating_list_shortcode() {
+	ob_start();
+	// get_template_part('alternating-list');
+	?>
+
+	<?php
+	// Fetch posts with WP_Query
+	$args = array(
+		'post_type'      => 'post', // Change to custom post type if needed
+		'posts_per_page' => 10, // Adjust as needed
+		'orderby'        => 'date',
+		'order'          => 'DESC',
+	);
+	$query = new WP_Query($args);
+	?>
+
+	<?php if ($query->have_posts()) : ?>
+		<div class="phf-alternating-list-wrapper__container">
+			<div class="phf-alternating-list-wrapper__categoryfilter">
+                <h3>Categories</h3>
+				<button class="filter-btn active" data-category="all">All</button>
+				<?php
+				$categories = get_categories(array('hide_empty' => false)); // Include categories with zero posts
+				foreach ($categories as $category) {
+					echo '<button class="filter-btn" data-category="' . $category->slug . '">' . $category->name . '</button>';
+				}
+				?>
+			</div>
+
+			<div id="post-list">
+				<?php
+				$count = 0;
+				while ($query->have_posts()) : $query->the_post();
+					$count++;
+					$post_categories = get_the_category();
+					$category_slug = !empty($post_categories) ? $post_categories[0]->slug : '';
+					?>
+					<div class="phf-alternating-list-wrapper__post-item post-item <?php echo $count % 2 == 0 ? 'even' : 'odd'; ?>" data-category="<?php echo $category_slug; ?>">
+						<div class="phf-alternating-list-wrapper__post-meta">
+							<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+							<p class="phf-alternating-list-wrapper__post-date"><?php echo get_the_date(); ?></p>
+						</div>
+						<div class="phf-alternating-list-wrapper__post-excerpt">
+							<?php the_excerpt(); ?>
+						</div>
+						<a href="<?php the_permalink(); ?>" class="phf-alternating-list-wrapper__site-link">Continue Reading</a>
+					</div>
+				<?php endwhile; ?>
+			</div>
+		</div>
+	<?php endif;
+	wp_reset_postdata();
+	?>
+
+
+    <?php return ob_get_clean();
+}
+add_shortcode('alternating_list', 'alternating_list_shortcode');
+
+
+// alternating_list attach inline JS script
+function alternating_list_script() {
+    // Register a new script handle
+    wp_register_script('jscodescript', '', [], false, true);
+
+    $inline_script = "
+        document.addEventListener('DOMContentLoaded', function () {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const posts = document.querySelectorAll('.post-item');
+
+            // Hide the 'All' button
+            const allButton = document.querySelector(\".filter-btn[data-category='all']\");
+            if (allButton) {
+                allButton.style.display = 'none';
+            }
+
+            // Select the first category button and trigger click event
+            if (filterButtons.length > 1) {
+                let firstCategoryButton = filterButtons[1]; // Skip the 'All' button (index 0)
+                firstCategoryButton.classList.add('active');
+                let firstCategory = firstCategoryButton.getAttribute('data-category');
+
+                // Show only posts from the first category
+                posts.forEach(post => {
+                    let postCategory = post.getAttribute('data-category');
+                    post.style.display = postCategory === firstCategory ? 'block' : 'none';
+                });
+            }
+
+            // Add event listener to filter buttons
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    let selectedCategory = this.getAttribute('data-category');
+
+                    // Update active state for buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Filter posts based on category
+                    posts.forEach(post => {
+                        let postCategory = post.getAttribute('data-category');
+                        post.style.display = postCategory === selectedCategory ? 'block' : 'none';
+                    });
+                });
+            });
+        });
+    ";
+
+    // Enqueue the registered script
+    wp_enqueue_script('jscodescript');
+
+    // Attach inline script to the registered handle
+    wp_add_inline_script('jscodescript', $inline_script);
+}
+add_action('wp_enqueue_scripts', 'alternating_list_script');
+
+
+// MODULE: Alternating List
+function alternating_list_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'alternating-list-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_alternating-list.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function alternating_list_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'alternating-list-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_alternating-list.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'alternating_list_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'alternating_list_style_enqueue_editor_styles'); // Editor
