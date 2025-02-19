@@ -1149,7 +1149,6 @@ add_action('enqueue_block_editor_assets', 'events_slider_style_enqueue_editor_st
 
 // Register Custom Post Type Events
 function create_events_cpt() {
-
     $labels = array(
         'name' => _x( 'Events', 'Post Type General Name', 'events' ),
         'singular_name' => _x( 'Event', 'Post Type Singular Name', 'events' ),
@@ -1185,7 +1184,7 @@ function create_events_cpt() {
         'labels' => $labels,
         'menu_icon' => 'dashicons-calendar-alt',
         'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'author', 'comments', 'trackbacks', 'page-attributes', 'post-formats', 'custom-fields'),
-        'taxonomies' => array(),
+        'taxonomies' => array('event_tag'), // <-- Add support for tags
         'public' => true,
         'show_ui' => true,
         'show_in_menu' => true,
@@ -1205,6 +1204,34 @@ function create_events_cpt() {
 }
 add_action( 'init', 'create_events_cpt', 0 );
 
+// Create Event Tags Taxonomy
+function create_event_taxonomies() {
+    register_taxonomy(
+        'event_tag',
+        'events',
+        array(
+            'label' => __( 'Event Tags', 'events' ),
+            'rewrite' => array( 'slug' => 'event-tag' ),
+            'hierarchical' => false,
+            'show_in_rest' => true, // Enables support for Gutenberg editor
+        )
+    );
+}
+add_action( 'init', 'create_event_taxonomies' );
+
+// enable_shortcode
+add_action( 'acf/init', 'set_acf_settings' );
+function set_acf_settings() {
+    acf_update_setting( 'enable_shortcode', true );
+}
+
+// Show ACF field on Events single page
+function display_event_dates() {
+    if (is_singular('events')) {
+        return get_field('full_event_dates'); // Fetch ACF field
+    }
+}
+add_shortcode('show_event_dates', 'display_event_dates');
 
 
 // Create Shortcode eventslider_shortcode
@@ -1269,6 +1296,44 @@ function create_eventslider_shortcode($attr)
     return ob_get_clean();
 }
 add_shortcode('eventslider_shortcode', 'create_eventslider_shortcode');
+
+
+// Enable Events Single page Swiper slider
+function eventspage_enqueue_swiperslide_block() {
+    if (is_singular('events') || is_page()) { 
+        wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', array(), null);
+        wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', array(), null, true);
+        wp_add_inline_script('swiper-js', "
+            document.addEventListener('DOMContentLoaded', function() {
+                if (document.querySelector('.phf-events-swiper-slider')) { 
+                    new Swiper('.phf-events-swiper-slider', {
+                        slidesPerView: 1,
+                        spaceBetween: 28,
+                        loop: true,
+                        autoplay: {
+                            delay: 5000,
+                            disableOnInteraction: false,
+                        },
+                        pagination: {
+                            clickable: true,
+                            el: '.swiper-pagination',
+                        },
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+                        breakpoints: {
+                            640: { slidesPerView: 1 },
+                            768: { slidesPerView: 2 },
+                            1024: { slidesPerView: 3 },
+                        },
+                    });
+                }
+            });
+        ");
+    }
+}
+add_action('wp_enqueue_scripts', 'eventspage_enqueue_swiperslide_block');
 
 
 // MODULE: In-Body Page NAV
@@ -1437,3 +1502,108 @@ function alternating_list_style_enqueue_editor_styles() {
 
 add_action('wp_enqueue_scripts', 'alternating_list_style_enqueue'); // Frontend
 add_action('enqueue_block_editor_assets', 'alternating_list_style_enqueue_editor_styles'); // Editor
+
+
+// Events Single Template
+function events_single_template_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'events-single-template-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_events-single-template.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function events_single_template_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'events-single-template-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_events-single-template.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'events_single_template_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'events_single_template_style_enqueue_editor_styles'); // Editor
+
+
+// Accordion with Nested Block Support
+function accordion_with_nested_block_support_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'accordion-with-nested-block-support-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_accordion-with-nested-block-support.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function accordion_with_nested_block_support_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'accordion-with-nested-block-support-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_accordion-with-nested-block-support.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'accordion_with_nested_block_support_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'accordion_with_nested_block_support_style_enqueue_editor_styles'); // Editor
+
+
+// Accordion with Nested Block Support JS script
+function enqueue_accordion_pattern_block() {
+    wp_register_script('accordionjsscript', '', [], false, true);
+
+    $inline_script = "
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordionWrapper = document.querySelector('.phf-accordion-with-nested-block-support-wrapper');
+            
+            if (accordionWrapper) {
+                const accordions = document.querySelectorAll('.phf-accordion-with-nested-block-support-wrapper__accordion');
+
+                // Open the first accordion by default
+                if (accordions.length > 0) {
+                    accordions[0].classList.add('active'); 
+                    const firstContent = accordions[0].querySelector('.phf-accordion-with-nested-block-support-wrapper__accordion-content');
+                    firstContent.style.maxHeight = (firstContent.scrollHeight + 100) + 'px'; // Adds extra 100px space
+                }
+
+                accordions.forEach(accordion => {
+                    const heading = accordion.querySelector('.phf-accordion-with-nested-block-support-wrapper__accordion-heading');
+                    const content = accordion.querySelector('.phf-accordion-with-nested-block-support-wrapper__accordion-content');
+
+                    heading.addEventListener('click', function () {
+                        // Close all other accordions
+                        accordions.forEach(item => {
+                            if (item !== accordion) {
+                                item.classList.remove('active');
+                                item.querySelector('.phf-accordion-with-nested-block-support-wrapper__accordion-content').style.maxHeight = null;
+                            }
+                        });
+
+                        // Toggle current accordion
+                        const isActive = accordion.classList.contains('active');
+                        if (isActive) {
+                            accordion.classList.remove('active');
+                            content.style.maxHeight = null;
+                        } else {
+                            accordion.classList.add('active');
+                            content.style.maxHeight = (content.scrollHeight + 100) + 'px'; // Adds extra 100px
+                        }
+                    });
+                });
+            }
+        });
+    ";
+
+    // Enqueue the registered script
+    wp_enqueue_script('accordionjsscript');
+
+    // Attach inline script to the registered handle
+    wp_add_inline_script('accordionjsscript', $inline_script);
+}
+add_action('wp_enqueue_scripts', 'enqueue_accordion_pattern_block');

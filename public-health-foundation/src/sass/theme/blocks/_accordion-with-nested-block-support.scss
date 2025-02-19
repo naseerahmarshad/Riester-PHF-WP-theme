@@ -1,0 +1,126 @@
+.phf-accordion-with-nested-block-support-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap:  0.625rem;
+    position: relative;
+    .phf-accordion-with-nested-block-support-wrapper__accordion {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-block-start: 0;
+        margin-block-end: 0;
+        .phf-accordion-with-nested-block-support-wrapper__accordion-heading {
+            display: block;
+            width: 100%;
+            position: relative;
+            background: #F4F4F4;
+            padding: 0.625rem 1.813rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            line-height: 1.5rem;
+            color: #000;
+            border-radius: 0;
+            cursor: pointer;
+            &:before {
+                content: '';
+                display: block;
+                width: 1.25rem;
+                height: 1.25rem;
+                position: absolute;
+                right: 1.875rem;
+                top: 50%;
+                transform: translateY(-50%);
+                background-image: url("data:image/svg+xml,%3Csvg width='20' height='18' viewBox='0 0 20 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 18L19.6309 8.36906L19.6457 0.64571L10.0148 10.2766L0.36906 0.630937L0.356182 8.35618L10 18Z' fill='black'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-size: contain;
+            }
+            .wp-block-heading {
+                font-size: inherit;
+                font-weight: inherit;
+                line-height: inherit;
+                color: inherit;
+                margin: 0;
+            }
+        }
+        .phf-accordion-with-nested-block-support-wrapper__accordion-content {
+            display: block;
+            margin-block-start: 0;
+            margin-block-end: 0;
+            width: 100%;
+            position: relative;
+            padding: 0 1.813rem;
+            overflow: hidden;
+            max-height: 0;
+            height: 0;
+            transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+            > * {
+                width: 100%;
+                max-width: 100%;
+            }
+            .wp-block-table {
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    font-size: 1rem;
+                    font-weight: 400;
+                    line-height: 1.5rem;
+                    color: #000;
+                    thead {
+                        border-bottom-width: 0.063rem;
+                        th {
+                            font-weight: bold;
+                        }
+                    }
+                    tr {
+                        td, th {
+                            border: 0.063rem solid #C6C6C6 !important;
+                        }
+                        td:nth-child(1), th:nth-child(1) {
+                            width: 6.125rem;
+                        }
+                        td:nth-child(3), th:nth-child(3) {
+                            width: 14.438rem;
+                        }
+                    }
+                }
+            }
+            .wp-block-separator {
+                border-color: #C6C6C6;
+            }
+            p {
+                font-size: 1.125rem;
+                line-height: 2rem;
+                color: #000;
+                strong {
+                    font-weight: 600;
+                }
+                a {
+                    text-decoration: underline;
+                    color: #294884;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+            .phf-module-video-course-wrapper {
+                margin-left: -1.813rem !important;
+                margin-right: -1.813rem !important;
+                width: auto;
+                max-width: none;
+            }
+        }
+        &.active {
+            .phf-accordion-with-nested-block-support-wrapper__accordion-heading {
+                background: #FFF2CF;
+                &:before {
+                    transform: translateY(-50%) rotate(180deg);
+                }
+            }
+            .phf-accordion-with-nested-block-support-wrapper__accordion-content {
+                height: auto;
+                padding: 2rem 1.813rem;
+            }
+        }
+    }
+}
