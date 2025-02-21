@@ -792,12 +792,15 @@ function enqueue_swiperslide_block() {
                         breakpoints: {
                             640: {
                                 slidesPerView: 1,
+                                spaceBetween: 23,
                             },
                             768: {
                                 slidesPerView: 2,
+                                spaceBetween: 23,
                             },
                             1024: {
                                 slidesPerView: 3,
+                                spaceBetween: 28,
                             },
                         },
                     });
