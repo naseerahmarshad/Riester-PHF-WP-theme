@@ -22,7 +22,7 @@
             line-height: 3rem;
             color: #161C2D;
         }
-        p {
+        p,ul li {
             width: inherit;
             max-width: inherit;
             font-size: 1.125rem;
@@ -31,7 +31,29 @@
             color: #000;
             margin-top: 0;
             margin-bottom: 1rem;
+            a {
+                color: #294884;
+                text-decoration: underline;
+                &:hover {
+                    color: #294884;
+                    text-decoration: none;
+                }
+            }
         }
+        ul {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        ul li {
+            margin-bottom: 0;
+        }
+        > * {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+    .wp-block-heading {
+        margin-bottom: 0.625rem;
     }
     @media (min-width: 768px) {
         padding-left: 0;
@@ -39,9 +61,6 @@
         .phf-module-full-width-text-wrapper__copy {
             position: relative;
             margin: 0;
-            .wp-block-heading {
-                margin-bottom: 0;
-            }
         }
     }
 }

@@ -1282,7 +1282,7 @@ function create_eventslider_shortcode($attr)
                             </div>
                         <?php endwhile; ?>
                     <?php else : ?>
-                        <p>No events found.</p>
+                        <span>No events found.</span>
                     <?php endif; ?>
                     <?php wp_reset_postdata(); ?>
                 </div>
@@ -1610,3 +1610,97 @@ function enqueue_accordion_pattern_block() {
     wp_add_inline_script('accordionjsscript', $inline_script);
 }
 add_action('wp_enqueue_scripts', 'enqueue_accordion_pattern_block');
+
+
+// Create Shortcode related_eventslider_shortcode
+// Shortcode: [related_eventslider_shortcode]
+function create_related_eventslider_shortcode($attr) {
+    ob_start();
+
+    // Get today's date
+    $today = strtotime(date('Y-m-d'));
+
+    // Custom WP query for 'events' post type
+    $args_eventsliderquery = array(
+        'post_type'      => 'events',
+        'posts_per_page' => 20,
+        'order'          => 'ASC', // Show nearest upcoming event first
+        'meta_query'     => array(
+            array(
+                'key'     => 'full_event_dates',
+                'compare' => 'EXISTS', // Ensures field exists
+            ),
+        ),
+    );
+
+    $eventsliderquery = new WP_Query($args_eventsliderquery);
+    $has_upcoming_events = false; // Flag to check if we have events to show
+    ?>
+
+    <section class="phf-events-slider-wrapper__swiper-slider">
+        <div class="swiper-slider-slider">
+            <div class="swiper phf-events-swiper-slider">
+                <div class="swiper-wrapper">
+                    <?php if ($eventsliderquery->have_posts()) : ?>
+                        <?php while ($eventsliderquery->have_posts()) : $eventsliderquery->the_post(); 
+                            $full_event_dates = get_field('full_event_dates'); // Get the date range
+                            
+                            if ($full_event_dates) {
+                                // Try different dashes (– and -) and extract the end date
+                                $full_event_dates = trim($full_event_dates);
+                                $date_parts = preg_split('/\s*[–-]\s*/', $full_event_dates); // Split at dash or hyphen
+                                
+                                if (isset($date_parts[1])) {
+                                    $end_date = strtotime($date_parts[1]); // Convert to timestamp
+
+                                    if ($end_date && $end_date >= $today) { // Only show future events
+                                        $has_upcoming_events = true;
+                        ?>
+                                        <div class="swiper-slide">
+                                            <div class="phf-events-slider-wrapper__eventcard">
+                                                <h3 class="phf-events-slider-wrapper__eventcard__title">
+                                                    <?php the_title(); ?>
+                                                </h3>
+                                                <div class="phf-events-slider-wrapper__dates-location">
+                                                    <div class="phf-events-slider-wrapper__location">
+                                                        <?php echo esc_html(get_field('location')); ?>
+                                                    </div>
+                                                    <div class="phf-events-slider-wrapper__dates">
+                                                        <h4><?php echo esc_html(get_field('month')); ?></h4>
+                                                        <h3><?php echo esc_html(get_field('event_dates')); ?></h3>
+                                                    </div>
+                                                </div>
+                                                <div class="phf-events-slider-wrapper__background">
+                                                    <?php $background = get_field('background'); ?>
+                                                    <?php if ($background) : ?>
+                                                        <img src="<?php echo esc_url($background['url']); ?>" alt="<?php echo esc_attr($background['alt']); ?>" />
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                        <?php 
+                                    } // End date check
+                                } // End extraction check
+                            } // End field existence check
+                        endwhile; ?>
+                    <?php endif; ?>
+
+                    <?php if (!$has_upcoming_events) : ?>
+                        <p>No upcoming events found.</p>
+                    <?php endif; ?>
+
+                    <?php wp_reset_postdata(); ?>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="phf-events-slider-wrapper__navigations">
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<?php
+    return ob_get_clean();
+}
+add_shortcode('related_eventslider_shortcode', 'create_related_eventslider_shortcode');
