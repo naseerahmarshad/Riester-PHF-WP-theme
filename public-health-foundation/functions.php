@@ -1704,3 +1704,38 @@ function create_related_eventslider_shortcode($attr) {
     return ob_get_clean();
 }
 add_shortcode('related_eventslider_shortcode', 'create_related_eventslider_shortcode');
+
+
+// Function to enqueue JavaScript
+function enqueue_commentformbuttonclass() {
+    wp_register_script('commentjsscript', '', [], false, true);
+
+    $inline_script = "
+        document.addEventListener('DOMContentLoaded', function () {
+            // Replace input[type='submit'] with <button>
+            var submitInput = document.querySelector('#commentform .form-submit.wp-block-button input[type=\"submit\"]');
+
+            if (submitInput) {
+                var newButton = document.createElement('button');
+                newButton.type = 'submit';
+                newButton.className = 'wp-block-button__link'; // Add required class
+                newButton.textContent = 'Submit'; // Set button text
+
+                submitInput.parentNode.replaceChild(newButton, submitInput);
+            }
+
+            // Add placeholder to the textarea
+            var commentTextarea = document.querySelector('#commentform textarea#comment');
+            if (commentTextarea) {
+                commentTextarea.setAttribute('placeholder', 'Leave a Comment');
+            }
+        });
+    ";
+
+    // Enqueue the registered script
+    wp_enqueue_script('commentjsscript');
+
+    // Attach inline script to the registered handle
+    wp_add_inline_script('commentjsscript', $inline_script);
+}
+add_action('wp_enqueue_scripts', 'enqueue_commentformbuttonclass');
