@@ -1739,3 +1739,187 @@ function enqueue_commentformbuttonclass() {
     wp_add_inline_script('commentjsscript', $inline_script);
 }
 add_action('wp_enqueue_scripts', 'enqueue_commentformbuttonclass');
+
+
+// Filtering posts by Month & Year
+function filter_blog_posts() {
+    $month = isset($_POST['month']) ? $_POST['month'] : '';
+    $year = isset($_POST['year']) ? $_POST['year'] : '';
+
+    $args = array(
+        'post_type'      => 'post',
+        'posts_per_page' => 10,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    );
+
+    if ($month && $year) {
+        $args['date_query'] = array(
+            array(
+                'year'  => $year,
+                'month' => $month,
+            ),
+        );
+    } elseif ($year) {
+        $args['date_query'] = array(
+            array(
+                'year' => $year,
+            ),
+        );
+    }
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) :
+        while ($query->have_posts()) : $query->the_post();
+    ?>
+            <div class="phf-filter-year-month-wrapper__post-item">
+                <div class="phf-filter-year-month-wrapper__post-meta">
+                    <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                    <p class="phf-filter-year-month-wrapper__post-date"><?php echo get_the_date(); ?></p>
+                </div>
+                <div class="phf-filter-year-month-wrapper__post-excerpt">
+                    <?php the_excerpt(); ?>
+                </div>
+                <a href="<?php the_permalink(); ?>" class="phf-filter-year-month-wrapper__site-link">Continue Reading</a>
+            </div>
+    <?php
+        endwhile;
+    else :
+        echo '<p>No posts found for the selected month/year.</p>';
+    endif;
+
+    wp_die();
+}
+add_action('wp_ajax_filter_blog_posts', 'filter_blog_posts');
+add_action('wp_ajax_nopriv_filter_blog_posts', 'filter_blog_posts');
+
+
+// [blog_filter] shortcode
+function blog_filter_shortcode() {
+    ob_start();
+    ?>
+    <form id="blog-filter-form" class="phf-filter-year-month-wrapper__sidebar">
+        <h3>Filter by</h3>
+        <div class="phf-filter-year-month-wrapper__select">
+            <select name="month" id="filter-month">
+                <option value="">Select Month</option>
+                <?php
+                for ($m = 1; $m <= 12; $m++) {
+                    $month_name = date("F", mktime(0, 0, 0, $m, 1));
+                    echo "<option value='$m'>$month_name</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="phf-filter-year-month-wrapper__select">
+            <select name="year" id="filter-year" class="phf-filter-year-month-wrapper__sidebar">
+                <option value="">Select Year</option>
+                <?php
+                $current_year = date("Y");
+                for ($y = $current_year; $y >= $current_year - 10; $y--) {
+                    echo "<option value='$y'>$y</option>";
+                }
+                ?>
+            </select>
+        </div>
+    </form>
+
+    <div class="phf-filter-year-month-wrapper__blog-post-list"></div> <!-- Container for AJAX-loaded posts -->
+
+<?php
+    return ob_get_clean();
+}
+add_shortcode('blog_filter', 'blog_filter_shortcode');
+
+
+// Filter year-month function to enqueue JavaScript
+function enqueue_filteryearmonth() {
+    // Register the script
+    wp_register_script('filteryearmonth-script', '', [], false, true);
+
+    // Localize the script to pass AJAX URL
+    wp_localize_script('filteryearmonth-script', 'ajax_object', array(
+        'ajaxurl' => admin_url('admin-ajax.php')
+    ));
+
+    // Inline JavaScript
+    $inline_script = "
+        document.addEventListener('DOMContentLoaded', function () {
+            var postListContainer = document.querySelector('.phf-filter-year-month-wrapper__blog-post-list');
+            
+            // Only run the script if the element exists
+            if (!postListContainer) {
+                return;
+            }
+
+            function fetchFilteredPosts() {
+                var month = document.getElementById('filter-month')?.value || '';
+                var year = document.getElementById('filter-year')?.value || '';
+
+                // Show loading message
+                postListContainer.innerHTML = '<p class=\"loading-message\">Loading...</p>';
+
+                var formData = new FormData();
+                formData.append('action', 'filter_blog_posts');
+                formData.append('month', month);
+                formData.append('year', year);
+
+                fetch(ajax_object.ajaxurl, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    postListContainer.innerHTML = data; // Replace content with fetched posts
+                })
+                .catch(error => {
+                    console.error('AJAX Error:', error);
+                    postListContainer.innerHTML = '<p class=\"error-message\">Error loading posts. Please try again.</p>';
+                });
+            }
+
+            // Add event listeners only if the dropdowns exist
+            var filterMonth = document.getElementById('filter-month');
+            var filterYear = document.getElementById('filter-year');
+
+            if (filterMonth) filterMonth.addEventListener('change', fetchFilteredPosts);
+            if (filterYear) filterYear.addEventListener('change', fetchFilteredPosts);
+
+            // Fetch posts on page load
+            fetchFilteredPosts();
+        });
+    ";
+
+    // Enqueue the script
+    wp_enqueue_script('filteryearmonth-script');
+
+    // Attach inline script
+    wp_add_inline_script('filteryearmonth-script', $inline_script);
+}
+add_action('wp_enqueue_scripts', 'enqueue_filteryearmonth');
+
+
+// MODULE: Filter (year/month) SCSS file enqueue
+function filter_year_month_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'filter-year-month-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_filter-year-month.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function filter_year_month_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'filter-year-month-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_filter-year-month.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'filter_year_month_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'filter_year_month_style_enqueue_editor_styles'); // Editor
