@@ -376,3 +376,75 @@
         padding-right: 1.5rem;
     }
 }
+
+.phf-related-blogs-wrapper {
+    position: relative;
+    padding-bottom: 6rem;
+    > .wp-block-heading {
+        font-size: 2.125rem;
+        line-height: 3rem;
+        color: #161C2D;
+        font-weight: bold;
+        margin: 0 0 2rem 0;
+        letter-spacing: -0.043rem;
+    }
+    .phf-relatedposts-wrapper {
+        margin-block-start: 0;
+        .wp-block-latest-posts__list {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 1.75rem;
+            margin: 0;
+            padding: 0;
+            > li {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                max-width: 100%;
+                .wp-block-latest-posts__featured-image {
+                    display: block;
+                    width: 100%;
+                    max-width: 100%;
+                    margin-bottom: 1.875rem;
+                    background: #f4f4f4;
+                    a {
+                        display: flex;
+                        width: 100%;
+                        height: auto;
+                        img {
+                            width: 100%;
+                            height: 13.875rem;
+                            object-fit: cover;
+                        }
+                    }
+                }
+                .wp-block-latest-posts__post-title {
+                    font-size: 1.625rem;
+                    font-weight: bold;
+                    line-height: 2.125rem;
+                    color: #294884;
+                    text-decoration: none;
+                    &:hover {
+                        color: #000;
+                    }
+                }
+                .wp-block-latest-posts__post-excerpt,
+                .wp-block-latest-posts__read-more,
+                .wp-block-buttons {
+                    display: none;
+                }
+            }
+        }
+    }
+    @media (min-width: 768px) {
+        .phf-relatedposts-wrapper {
+            .wp-block-latest-posts__list {
+                flex-direction: row;
+                > li {
+                    max-width: calc((100% - 1.75rem) / 3);
+                }
+            }
+        }
+    }
+}

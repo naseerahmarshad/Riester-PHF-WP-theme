@@ -1596,6 +1596,9 @@ function enqueue_accordion_pattern_block() {
                         } else {
                             accordion.classList.add('active');
                             content.style.maxHeight = (content.scrollHeight + 100) + 'px'; // Adds extra 100px
+
+                            // Scroll to the top of the accordion when opened
+                            accordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }
                     });
                 });
@@ -1923,3 +1926,28 @@ function filter_year_month_style_enqueue_editor_styles() {
 
 add_action('wp_enqueue_scripts', 'filter_year_month_style_enqueue'); // Frontend
 add_action('enqueue_block_editor_assets', 'filter_year_month_style_enqueue_editor_styles'); // Editor
+
+
+// MODULE: 3/3 Yellow Action Item
+function threeby3_yellow_action_item_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'threeby3-yellow-action-item-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_3by3-yellow-action-item.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function threeby3_yellow_action_item_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'threeby3-yellow-action-item-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_3by3-yellow-action-item.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'threeby3_yellow_action_item_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'threeby3_yellow_action_item_style_enqueue_editor_styles'); // Editor
