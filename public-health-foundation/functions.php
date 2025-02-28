@@ -747,32 +747,32 @@ function enqueue_swiperslide_block() {
                     });
 
                     //Events slider
-                    new Swiper('.phf-events-swiper-slider', {
-                        slidesPerView: 1,
-                        spaceBetween: 28,
-                        delay: 5000,
-                        disableOnInteraction: false,
-                        loop: true,
-                        pagination: {
-                            clickable: true,
-                            el: '.swiper-pagination',
-                        },
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
-                        breakpoints: {
-                            640: {
-                                slidesPerView: 1,
-                            },
-                            768: {
-                                slidesPerView: 2,
-                            },
-                            1024: {
-                                slidesPerView: 3,
-                            },
-                        },
-                    });
+                    // new Swiper('.phf-events-swiper-slider', {
+                    //     slidesPerView: 1,
+                    //     spaceBetween: 28,
+                    //     delay: 5000,
+                    //     disableOnInteraction: false,
+                    //     loop: true,
+                    //     pagination: {
+                    //         clickable: true,
+                    //         el: '.swiper-pagination',
+                    //     },
+                    //     navigation: {
+                    //         nextEl: '.swiper-button-next',
+                    //         prevEl: '.swiper-button-prev',
+                    //     },
+                    //     breakpoints: {
+                    //         640: {
+                    //             slidesPerView: 1,
+                    //         },
+                    //         768: {
+                    //             slidesPerView: 2,
+                    //         },
+                    //         1024: {
+                    //             slidesPerView: 3,
+                    //         },
+                    //     },
+                    // });
 
                     //Hot Topics Slider
                     new Swiper('.phf-hot-topics-swiper-slider', {
@@ -1222,6 +1222,82 @@ function create_event_taxonomies() {
 }
 add_action( 'init', 'create_event_taxonomies' );
 
+
+// Register Custom Post Type Tool & Resource
+function create_toolresource_cpt() {
+
+	$labels = array(
+		'name' => _x( 'Tools & Resources', 'Post Type General Name', 'tools-resources' ),
+		'singular_name' => _x( 'Tool & Resource', 'Post Type Singular Name', 'tools-resources' ),
+		'menu_name' => _x( 'Tools & Resources', 'Admin Menu text', 'tools-resources' ),
+		'name_admin_bar' => _x( 'Tool & Resource', 'Add New on Toolbar', 'tools-resources' ),
+		'archives' => __( 'Tool & Resource Archives', 'tools-resources' ),
+		'attributes' => __( 'Tool & Resource Attributes', 'tools-resources' ),
+		'parent_item_colon' => __( 'Parent Tool & Resource:', 'tools-resources' ),
+		'all_items' => __( 'All Tools & Resources', 'tools-resources' ),
+		'add_new_item' => __( 'Add New Tool & Resource', 'tools-resources' ),
+		'add_new' => __( 'Add New', 'tools-resources' ),
+		'new_item' => __( 'New Tool & Resource', 'tools-resources' ),
+		'edit_item' => __( 'Edit Tool & Resource', 'tools-resources' ),
+		'update_item' => __( 'Update Tool & Resource', 'tools-resources' ),
+		'view_item' => __( 'View Tool & Resource', 'tools-resources' ),
+		'view_items' => __( 'View Tools & Resources', 'tools-resources' ),
+		'search_items' => __( 'Search Tool & Resource', 'tools-resources' ),
+		'not_found' => __( 'Not found', 'tools-resources' ),
+		'not_found_in_trash' => __( 'Not found in Trash', 'tools-resources' ),
+		'featured_image' => __( 'Featured Image', 'tools-resources' ),
+		'set_featured_image' => __( 'Set featured image', 'tools-resources' ),
+		'remove_featured_image' => __( 'Remove featured image', 'tools-resources' ),
+		'use_featured_image' => __( 'Use as featured image', 'tools-resources' ),
+		'insert_into_item' => __( 'Insert into Tool & Resource', 'tools-resources' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this Tool & Resource', 'tools-resources' ),
+		'items_list' => __( 'Tools & Resources list', 'tools-resources' ),
+		'items_list_navigation' => __( 'Tools & Resources list navigation', 'tools-resources' ),
+		'filter_items_list' => __( 'Filter Tools & Resources list', 'tools-resources' ),
+	);
+	$args = array(
+		'label' => __( 'Tool & Resource', 'tools-resources' ),
+		'description' => __( 'Tools & Resources', 'tools-resources' ),
+		'labels' => $labels,
+		'menu_icon' => 'dashicons-admin-post',
+		'supports' => array('title', 'editor', 'excerpt', 'thumbnail', 'revisions', 'author', 'comments', 'trackbacks', 'page-attributes', 'post-formats', 'custom-fields'),
+		'taxonomies' => array('tools_resources_tag'),
+		'public' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'menu_position' => 5,
+		'show_in_admin_bar' => true,
+		'show_in_nav_menus' => true,
+		'can_export' => true,
+		'has_archive' => true,
+		'hierarchical' => false,
+		'exclude_from_search' => false,
+		'show_in_rest' => true,
+		'publicly_queryable' => true,
+		'capability_type' => 'post',
+	);
+	register_post_type( 'tools-resources', $args );
+
+}
+add_action( 'init', 'create_toolresource_cpt', 0 );
+
+
+// Create Tool & Resource Tags Taxonomy
+function create_tools_resources_taxonomies() {
+    register_taxonomy(
+        'tools_resources_tag',
+        'tools-resources',
+        array(
+            'label' => __( 'Tool & Resource Tags', 'tools-resources' ),
+            'rewrite' => array( 'slug' => 'tools-resources-tag' ),
+            'hierarchical' => false,
+            'show_in_rest' => true,
+        )
+    );
+}
+add_action( 'init', 'create_tools_resources_taxonomies' );
+
+
 // enable_shortcode
 add_action( 'acf/init', 'set_acf_settings' );
 function set_acf_settings() {
@@ -1598,7 +1674,19 @@ function enqueue_accordion_pattern_block() {
                             content.style.maxHeight = (content.scrollHeight + 100) + 'px'; // Adds extra 100px
 
                             // Scroll to the top of the accordion when opened
-                            accordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            //accordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            // Scroll to accordion while considering the fixed header height
+                            const header = document.querySelector('.phf-header-navbar');
+                            const headerHeight = header ? header.offsetHeight : 0;
+                            const accordionTop = accordion.getBoundingClientRect().top + window.scrollY;
+
+                            // Set different scroll offsets for mobile and desktop
+                            let extraOffset = window.innerWidth <= 768 ? 80 : 80;
+
+                            window.scrollTo({
+                                top: accordionTop - headerHeight - extraOffset, 
+                                behavior: 'smooth'
+                            });
                         }
                     });
                 });
@@ -1709,7 +1797,7 @@ function create_related_eventslider_shortcode($attr) {
 add_shortcode('related_eventslider_shortcode', 'create_related_eventslider_shortcode');
 
 
-// Function to enqueue JavaScript
+// commentform button Function to enqueue JavaScript
 function enqueue_commentformbuttonclass() {
     wp_register_script('commentjsscript', '', [], false, true);
 
@@ -1744,13 +1832,14 @@ function enqueue_commentformbuttonclass() {
 add_action('wp_enqueue_scripts', 'enqueue_commentformbuttonclass');
 
 
-// Filtering posts by Month & Year
+// Filtering posts by Month, Year & Post Type
 function filter_blog_posts() {
-    $month = isset($_POST['month']) ? $_POST['month'] : '';
-    $year = isset($_POST['year']) ? $_POST['year'] : '';
+    $month = isset($_POST['month']) ? sanitize_text_field($_POST['month']) : '';
+    $year = isset($_POST['year']) ? sanitize_text_field($_POST['year']) : '';
+    $post_type = isset($_POST['post_type']) ? sanitize_text_field($_POST['post_type']) : 'post';
 
     $args = array(
-        'post_type'      => 'post',
+        'post_type'      => $post_type,
         'posts_per_page' => 10,
         'orderby'        => 'date',
         'order'          => 'DESC',
@@ -1789,7 +1878,7 @@ function filter_blog_posts() {
     <?php
         endwhile;
     else :
-        echo '<p>No posts found for the selected month/year.</p>';
+        echo '<p>No posts found for the selected criteria.</p>';
     endif;
 
     wp_die();
@@ -1799,11 +1888,19 @@ add_action('wp_ajax_nopriv_filter_blog_posts', 'filter_blog_posts');
 
 
 // [blog_filter] shortcode
-function blog_filter_shortcode() {
+function blog_filter_shortcode($atts) {
+    // Allow specifying post type dynamically in the shortcode
+    $atts = shortcode_atts(array(
+        'post_type' => 'post', // Default to 'post'
+    ), $atts, 'blog_filter');
+
     ob_start();
     ?>
     <form id="blog-filter-form" class="phf-filter-year-month-wrapper__sidebar">
         <h3>Filter by</h3>
+        
+        <input type="hidden" id="filter-post-type" value="<?php echo esc_attr($atts['post_type']); ?>"> <!-- Pass post type dynamically -->
+
         <div class="phf-filter-year-month-wrapper__select">
             <select name="month" id="filter-month">
                 <option value="">Select Month</option>
@@ -1816,7 +1913,7 @@ function blog_filter_shortcode() {
             </select>
         </div>
         <div class="phf-filter-year-month-wrapper__select">
-            <select name="year" id="filter-year" class="phf-filter-year-month-wrapper__sidebar">
+            <select name="year" id="filter-year">
                 <option value="">Select Year</option>
                 <?php
                 $current_year = date("Y");
@@ -1830,7 +1927,7 @@ function blog_filter_shortcode() {
 
     <div class="phf-filter-year-month-wrapper__blog-post-list"></div> <!-- Container for AJAX-loaded posts -->
 
-<?php
+    <?php
     return ob_get_clean();
 }
 add_shortcode('blog_filter', 'blog_filter_shortcode');
@@ -1850,23 +1947,21 @@ function enqueue_filteryearmonth() {
     $inline_script = "
         document.addEventListener('DOMContentLoaded', function () {
             var postListContainer = document.querySelector('.phf-filter-year-month-wrapper__blog-post-list');
-            
-            // Only run the script if the element exists
-            if (!postListContainer) {
-                return;
-            }
+
+            if (!postListContainer) return;
 
             function fetchFilteredPosts() {
                 var month = document.getElementById('filter-month')?.value || '';
                 var year = document.getElementById('filter-year')?.value || '';
+                var postType = document.getElementById('filter-post-type')?.value || 'post';
 
-                // Show loading message
                 postListContainer.innerHTML = '<p class=\"loading-message\">Loading...</p>';
 
                 var formData = new FormData();
                 formData.append('action', 'filter_blog_posts');
                 formData.append('month', month);
                 formData.append('year', year);
+                formData.append('post_type', postType); // Pass dynamic post type
 
                 fetch(ajax_object.ajaxurl, {
                     method: 'POST',
@@ -1874,7 +1969,7 @@ function enqueue_filteryearmonth() {
                 })
                 .then(response => response.text())
                 .then(data => {
-                    postListContainer.innerHTML = data; // Replace content with fetched posts
+                    postListContainer.innerHTML = data;
                 })
                 .catch(error => {
                     console.error('AJAX Error:', error);
@@ -1882,15 +1977,10 @@ function enqueue_filteryearmonth() {
                 });
             }
 
-            // Add event listeners only if the dropdowns exist
-            var filterMonth = document.getElementById('filter-month');
-            var filterYear = document.getElementById('filter-year');
+            document.getElementById('filter-month')?.addEventListener('change', fetchFilteredPosts);
+            document.getElementById('filter-year')?.addEventListener('change', fetchFilteredPosts);
 
-            if (filterMonth) filterMonth.addEventListener('change', fetchFilteredPosts);
-            if (filterYear) filterYear.addEventListener('change', fetchFilteredPosts);
-
-            // Fetch posts on page load
-            fetchFilteredPosts();
+            fetchFilteredPosts(); // Load posts on page load
         });
     ";
 
