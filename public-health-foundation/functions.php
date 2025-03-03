@@ -2041,3 +2041,156 @@ function threeby3_yellow_action_item_style_enqueue_editor_styles() {
 
 add_action('wp_enqueue_scripts', 'threeby3_yellow_action_item_style_enqueue'); // Frontend
 add_action('enqueue_block_editor_assets', 'threeby3_yellow_action_item_style_enqueue_editor_styles'); // Editor
+
+
+// Search module
+// Enqueue AJAX script and localize AJAX URL
+function enqueue_searchModuleScript() {
+    // Register the script
+    wp_register_script('searchmodule-script', '', [], false, true);
+
+    // Localize the script to pass AJAX URL
+    wp_localize_script('searchmodule-script', 'ajax_object', array(
+        'ajaxurl' => admin_url('admin-ajax.php')
+    ));
+
+    // Inline JavaScript
+    $inline_script = "
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchModule = document.querySelector('.custom-search-module');
+            if (!searchModule) return;
+
+            const searchInput = searchModule.querySelector('#search-input');
+            const searchResults = searchModule.querySelector('#search-results');
+            const postType = searchModule.dataset.postType;
+
+            function fetchSearchResults() {
+                let searchQuery = searchInput.value.trim();
+                if (searchQuery.length < 3) {
+                    searchResults.innerHTML = '<p>Please enter at least 3 characters.</p>';
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append('action', 'custom_search');
+                formData.append('search_query', searchQuery);
+                formData.append('post_type', postType);
+
+                fetch(ajax_object.ajaxurl, {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.text())
+                .then(data => {
+                    searchResults.innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Search error:', error);
+                    searchResults.innerHTML = '<p>Error fetching results. Try again.</p>';
+                });
+            }
+
+            searchInput.addEventListener('keyup', fetchSearchResults);
+        });
+    ";
+
+    // Enqueue the script
+    wp_enqueue_script('searchmodule-script');
+
+    // Attach inline script
+    wp_add_inline_script('searchmodule-script', $inline_script);
+}
+add_action('wp_enqueue_scripts', 'enqueue_searchModuleScript');
+
+
+// Shortcode function to generate search module [search_module post_type="events"]
+function search_module_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'post_type' => 'post', // Default to "post" type if not specified
+    ), $atts, 'search_module');
+
+    ob_start();
+    ?>
+    <div class="custom-search-module" data-post-type="<?php echo esc_attr($atts['post_type']); ?>">
+        <div class="phf-searchmodule-wrapper__sidebar">
+            <label for="search-input">Search Resources & Tools</label>
+            <div class="phf-searchmodule-wrapper__searchinput">
+                <input type="text" id="search-input" placeholder="What are you looking for?" />
+            </div>
+        </div>
+        <div id="search-results" class="phf-searchmodule-wrapper__blog-post-list"></div> <!-- Display search results -->
+    </div>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('search_module', 'search_module_shortcode');
+
+// Handle AJAX Search Request
+function custom_search() {
+    $search_query = isset($_POST['search_query']) ? sanitize_text_field($_POST['search_query']) : '';
+    $post_type = isset($_POST['post_type']) ? sanitize_text_field($_POST['post_type']) : 'post';
+
+    if (empty($search_query)) {
+        echo '<p>Please enter a search term.</p>';
+        wp_die();
+    }
+
+    $args = array(
+        'post_type'      => $post_type,
+        'posts_per_page' => 5,
+        's'              => $search_query
+    );
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        echo '<ul class="search-results-list">';
+        $count = 0;
+        while ($query->have_posts()) {
+            $query->the_post(); ?>
+            <div class="phf-searchmodule-wrapper__post-item">
+                <div class="phf-searchmodule-wrapper__post-meta">
+                    <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                    <p class="phf-searchmodule-wrapper__post-date"><?php echo get_the_date(); ?></p>
+                </div>
+                <div class="phf-searchmodule-wrapper__post-excerpt">
+                    <?php the_excerpt(); ?>
+                </div>
+                <a href="<?php the_permalink(); ?>" class="phf-searchmodule-wrapper__site-link">Continue Reading</a>
+            </div>
+        <?php }
+        echo '</ul>';
+    } else {
+        echo '<p>No results found.</p>';
+    }
+
+    wp_reset_postdata();
+    wp_die();
+}
+add_action('wp_ajax_custom_search', 'custom_search');
+add_action('wp_ajax_nopriv_custom_search', 'custom_search');
+
+
+// MODULE: Search Resources & Tools
+function search_resources_tools_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'search-resources-tools-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_search-resources-tools.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function search_resources_tools_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'search-resources-tools-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_search-resources-tools.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'search_resources_tools_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'search_resources_tools_style_enqueue_editor_styles'); // Editor
