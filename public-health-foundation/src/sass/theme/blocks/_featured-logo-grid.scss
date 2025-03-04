@@ -1,0 +1,50 @@
+.phf-featured-logo-grid-wrapper {
+    position: relative;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    .phf-featured-logo-grid-wrapper__heading {
+        font-size: 2.125rem;
+        font-weight: bold;
+        line-height: 3rem;
+        color: #000;
+        letter-spacing: -0.043rem;
+        margin: 0 0 1.813rem 0;
+    }
+    .phf-featured-logo-grid-wrapper__grid {
+        margin: 0 0 2.563rem 0;
+        .wp-block-column {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .wp-block-image {
+                max-width: 100%;
+                img {
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+    .phf-featured-logo-grid-wrapper__copy {
+        font-size: 1.125rem;
+        line-height: 2rem;
+        font-weight: normal;
+        color: #000;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        a {
+            text-decoration: underline;
+            font-size: inherit;
+            line-height: inherit;
+            font-weight: inherit;
+            color: #294884;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+    @media (max-width: 1240px) {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
