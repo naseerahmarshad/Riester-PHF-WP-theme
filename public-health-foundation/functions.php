@@ -189,6 +189,12 @@ function register_acf_blocks__logo_cta_slider(){
     register_block_type(__DIR__ . '/blocks/logo-cta-slider');
 }
 
+// Three Column Tiles – Link, Description Fill with Pop-up Modal
+add_action('init', 'register_acf_blocks__three_column_description_fill_popup_modal');
+function register_acf_blocks__three_column_description_fill_popup_modal(){
+    register_block_type(__DIR__ . '/blocks/three-column-description-fill-popup-modal');
+}
+
 // HEADER NAVBAR styles
 function headernavbar_style_enqueue() {
     // Frontend styles
@@ -2244,3 +2250,52 @@ function three_column_content_feature_style_enqueue_editor_styles() {
 
 add_action('wp_enqueue_scripts', 'three_column_content_feature_style_enqueue'); // Frontend
 add_action('enqueue_block_editor_assets', 'three_column_content_feature_style_enqueue_editor_styles'); // Editor
+
+
+// Three Column Tiles – Link, Description Fill with Pop-up Modal JavaScript
+function enqueue_three_column_description_fill_popup_modal_script() {
+    wp_register_script('three-column-description-fill-popup-modal-script', '', [], false, true);
+
+    $inline_script = "
+        document.addEventListener('DOMContentLoaded', function () {
+            // Select all block cards
+            const blockCards = document.querySelectorAll('.phf-three-column-description-fill-popup-modal-wrapper__blockcard');
+
+            blockCards.forEach((card) => {
+                card.addEventListener('click', function () {
+                    // Find the next sibling modal wrapper inside the same block
+                    const popupModal = this.closest('.phf-three-column-description-fill-popup-modal-wrapper__block')
+                                            .querySelector('.phf-module-popup-wrapper');
+
+                    if (popupModal) {
+                        popupModal.style.display = 'block'; // Show the modal
+                        //popupModal.classList.add('modalpopup-active');
+                    }
+                });
+            });
+
+            // Close functionality
+            const closeButtons = document.querySelectorAll('.phf-module-popup-wrapper__closebtn a');
+
+            closeButtons.forEach((closeBtn) => {
+                closeBtn.addEventListener('click', function (event) {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    // Find the closest modal and hide it
+                    const popupModal = this.closest('.phf-module-popup-wrapper');
+                    if (popupModal) {
+                        popupModal.style.display = 'none';
+                        // popupModal.classList.remove('modalpopup-active');
+                    }
+                });
+            });
+        });
+    ";
+
+    // Enqueue the registered script
+    wp_enqueue_script('three-column-description-fill-popup-modal-script');
+
+    // Attach inline script to the registered handle
+    wp_add_inline_script('three-column-description-fill-popup-modal-script', $inline_script);
+}
+add_action('wp_enqueue_scripts', 'enqueue_three_column_description_fill_popup_modal_script');
