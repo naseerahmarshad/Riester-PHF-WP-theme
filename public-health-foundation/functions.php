@@ -1229,6 +1229,42 @@ function create_event_taxonomies() {
 add_action( 'init', 'create_event_taxonomies' );
 
 
+// Register Taxonomy Event Category
+function create_eventcategory_tax() {
+
+	$labels = array(
+		'name'              => _x( 'Event Categories', 'taxonomy general name', 'event-category' ),
+		'singular_name'     => _x( 'Event Category', 'taxonomy singular name', 'event-category' ),
+		'search_items'      => __( 'Search Event Categories', 'event-category' ),
+		'all_items'         => __( 'All Event Categories', 'event-category' ),
+		'parent_item'       => __( 'Parent Event Category', 'event-category' ),
+		'parent_item_colon' => __( 'Parent Event Category:', 'event-category' ),
+		'edit_item'         => __( 'Edit Event Category', 'event-category' ),
+		'update_item'       => __( 'Update Event Category', 'event-category' ),
+		'add_new_item'      => __( 'Add New Event Category', 'event-category' ),
+		'new_item_name'     => __( 'New Event Category Name', 'event-category' ),
+		'menu_name'         => __( 'Event Category', 'event-category' ),
+	);
+	$args = array(
+		'labels' => $labels,
+		'description' => __( 'Event Categories', 'event-category' ),
+		'hierarchical' => false,
+		'public' => true,
+		'publicly_queryable' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'show_in_nav_menus' => true,
+		'show_tagcloud' => true,
+		'show_in_quick_edit' => true,
+		'show_admin_column' => false,
+		'show_in_rest' => true,
+	);
+	register_taxonomy( 'eventcategory', array('events'), $args );
+
+}
+add_action( 'init', 'create_eventcategory_tax' );
+
+
 // Register Custom Post Type Tool & Resource
 function create_toolresource_cpt() {
 
@@ -1302,6 +1338,42 @@ function create_tools_resources_taxonomies() {
     );
 }
 add_action( 'init', 'create_tools_resources_taxonomies' );
+
+
+// Register Taxonomy Tools & Resources Category
+function create_toolsresourcescategory_tax() {
+
+	$labels = array(
+		'name'              => _x( 'Tools & Resources Categories', 'taxonomy general name', 'tools-resources-category' ),
+		'singular_name'     => _x( 'Tools & Resources Category', 'taxonomy singular name', 'tools-resources-category' ),
+		'search_items'      => __( 'Search Tools & Resources Categories', 'tools-resources-category' ),
+		'all_items'         => __( 'All Tools & Resources Categories', 'tools-resources-category' ),
+		'parent_item'       => __( 'Parent Tools & Resources Category', 'tools-resources-category' ),
+		'parent_item_colon' => __( 'Parent Tools & Resources Category:', 'tools-resources-category' ),
+		'edit_item'         => __( 'Edit Tools & Resources Category', 'tools-resources-category' ),
+		'update_item'       => __( 'Update Tools & Resources Category', 'tools-resources-category' ),
+		'add_new_item'      => __( 'Add New Tools & Resources Category', 'tools-resources-category' ),
+		'new_item_name'     => __( 'New Tools & Resources Category Name', 'tools-resources-category' ),
+		'menu_name'         => __( 'Tools & Resources Category', 'tools-resources-category' ),
+	);
+	$args = array(
+		'labels' => $labels,
+		'description' => __( 'Tools & Resources Categories', 'tools-resources-category' ),
+		'hierarchical' => false,
+		'public' => true,
+		'publicly_queryable' => true,
+		'show_ui' => true,
+		'show_in_menu' => true,
+		'show_in_nav_menus' => true,
+		'show_tagcloud' => true,
+		'show_in_quick_edit' => true,
+		'show_admin_column' => false,
+		'show_in_rest' => true,
+	);
+	register_taxonomy( 'toolsresourcescatego', array('tools-resources'), $args );
+
+}
+add_action( 'init', 'create_toolsresourcescategory_tax' );
 
 
 // enable_shortcode
@@ -2299,3 +2371,28 @@ function enqueue_three_column_description_fill_popup_modal_script() {
     wp_add_inline_script('three-column-description-fill-popup-modal-script', $inline_script);
 }
 add_action('wp_enqueue_scripts', 'enqueue_three_column_description_fill_popup_modal_script');
+
+
+// MODULE: 50/50 Page Header
+function fifty_fifty_page_header_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'fifty-fifty-page-header-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_fifty-fifty-page-header.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function fifty_fifty_page_header_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'fifty-fifty-page-header-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_fifty-fifty-page-header.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'fifty_fifty_page_header_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'fifty_fifty_page_header_style_enqueue_editor_styles'); // Editor
