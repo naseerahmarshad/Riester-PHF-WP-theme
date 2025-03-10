@@ -2396,3 +2396,489 @@ function fifty_fifty_page_header_style_enqueue_editor_styles() {
 
 add_action('wp_enqueue_scripts', 'fifty_fifty_page_header_style_enqueue'); // Frontend
 add_action('enqueue_block_editor_assets', 'fifty_fifty_page_header_style_enqueue_editor_styles'); // Editor
+
+
+// ================== BLOG POST SEARCH + CATEGORY FILTER + ALTERNATING LIST WITH PAGINATION
+// Register & Enqueue Scripts
+function enqueue_custom_content_script() {
+
+	if ( is_singular() || is_page() ) {
+
+		// $content = apply_filters( 'the_content', get_the_content() );
+		global $post;
+
+		if ( has_shortcode( $post->post_content, 'custom_content' ) ) {
+			wp_register_script('custom-content-script', '', [], false, true);
+		
+			$inline_script = "
+				document.addEventListener('DOMContentLoaded', function () {
+					const blogsearchInput = document.getElementById('post-search-input');
+					const postList = document.getElementById('post-list');
+					const categoryLinks = document.querySelectorAll('#category-filter li a');
+					const paginationLinks = document.getElementById('pagination-links');
+					let selectedCategory = '';
+		
+					function fetchResults(page = 1) {
+						let searchQuery = blogsearchInput.value.trim();
+						let postType = document.getElementById('custom-content-container').dataset.postType;
+		
+						// If there's a search query, ignore the category filter
+						let categoryParam = searchQuery ? '' : selectedCategory;
+		
+						let formData = new FormData();
+						formData.append('action', 'fetch_custom_posts');
+						formData.append('search_query', searchQuery);
+						formData.append('post_type', postType);
+						formData.append('category', categoryParam);
+						formData.append('paged', page);
+		
+						fetch(ajax_object.ajaxurl, {
+							method: 'POST',
+							body: formData
+						})
+						.then(response => response.text())
+						.then(data => {
+							postList.innerHTML = data;
+						})
+						.catch(error => console.error('Error fetching results:', error));
+					}
+		
+					// Trigger search and reset category filter
+					blogsearchInput.addEventListener('keyup', () => {
+						selectedCategory = ''; // Reset category filter on search
+						categoryLinks.forEach(l => l.classList.remove('active'));
+						fetchResults();
+					});
+		
+					categoryLinks.forEach(link => {
+						link.addEventListener('click', function (event) {
+							event.preventDefault();
+							selectedCategory = this.dataset.slug;
+		
+							// Clear search field when category is selected
+							blogsearchInput.value = '';  
+		
+							categoryLinks.forEach(l => l.classList.remove('active'));
+							this.classList.add('active');
+		
+							fetchResults();
+						});
+					});
+		
+					document.addEventListener('click', function (event) {
+						if (event.target.classList.contains('pagination-link')) {
+                            const alternatingListWrapper = document.querySelector('.phf-alternating-list-wrapper__container');
+                            const alternatingListWrapperTopPosition = alternatingListWrapper.getBoundingClientRect().top + window.scrollY;
+
+                            // Set different scroll offsets for mobile and desktop
+                            let extraOffset = window.innerWidth <= 768 ? 80 : 80;
+
+                            window.scrollTo({
+                                top: alternatingListWrapperTopPosition - extraOffset, 
+                                behavior: 'smooth'
+                            });
+
+							event.preventDefault();
+							let page = event.target.dataset.page;
+							fetchResults(page);
+						}
+					});
+				});
+			";
+		
+			wp_enqueue_script('custom-content-script');
+			wp_localize_script('custom-content-script', 'ajax_object', ['ajaxurl' => admin_url('admin-ajax.php')]);
+			wp_add_inline_script('custom-content-script', $inline_script);
+		}
+	}
+
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_content_script');
+
+
+// Shortcode for Search + Alternating List + Pagination
+function custom_content_shortcode($atts) {
+    $atts = shortcode_atts(['post_type' => 'post'], $atts, 'custom_content');
+
+    ob_start(); ?>
+    <div id="custom-content-container" data-post-type="<?php echo esc_attr($atts['post_type']); ?>" class="phf-alternating-list-wrapper">
+
+		<div class="phf-alternating-list-wrapper__container">
+			<div class="phf-alternating-list-wrapper__categoryfilter">
+				<!-- Search Box -->
+				<div class="search-module">
+					<label for="post-search-input">Search</label>
+					<div class="phf-searchmodule-wrapper__searchinput">
+						<input type="text" id="post-search-input" placeholder="What are you looking for?" />
+					</div>
+				</div>
+		
+				<!-- Category List -->
+				<ul id="category-filter">
+                    <h4>Categories</h4>
+					<li><a href="#" data-slug="" class="active">All Categories</a></li>
+					<?php
+					$categories = get_categories(['hide_empty' => false]);
+					foreach ($categories as $category) {
+						echo '<li><a href="#" data-slug="' . esc_attr($category->slug) . '">' . esc_html($category->name) . '</a></li>';
+					}
+					?>
+				</ul>
+			</div>
+
+			<div class="phf-postlist-column">
+				<!-- Post List -->
+				<div id="post-list">
+					<?php fetch_custom_posts(['post_type' => $atts['post_type'], 'paged' => 1]); ?>
+				</div>
+		
+				<!-- Pagination -->
+				<div id="pagination-links"></div>
+			</div>
+		</div>
+
+    </div>
+    <?php return ob_get_clean();
+}
+add_shortcode('custom_content', 'custom_content_shortcode'); // [custom_content post_type="post"]
+
+
+// AJAX Handler for Fetching Posts
+function fetch_custom_posts($atts = []) {
+    $search_query = isset($_POST['search_query']) ? sanitize_text_field($_POST['search_query']) : '';
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : '';
+    $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+    $posts_per_page = 8;
+
+    $args = [
+        'post_type'      => 'post',
+        'posts_per_page' => $posts_per_page,
+        'paged'          => $paged,
+        'orderby'        => 'date',
+        'order'          => 'DESC'
+    ];
+
+    if (!empty($search_query)) {
+        $args['s'] = $search_query;
+        $category = ''; // Ignore category if searching
+    }
+
+    if (!empty($category)) {
+        $args['category_name'] = $category;
+    }
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        echo '<div class="alternating-list">';
+        $count = 0;
+        while ($query->have_posts()) {
+            $query->the_post();
+            $count++;
+            $post_categories = get_the_category();
+            $category_slug = !empty($post_categories) ? $post_categories[0]->slug : '';
+            ?>
+            <div class="phf-alternating-list-wrapper__post-item <?php echo $count % 2 == 0 ? 'even' : 'odd'; ?>" data-category="<?php echo esc_attr($category_slug); ?>">
+				<div class="phf-alternating-list-wrapper__post-meta">
+					<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+					<p><?php echo get_the_date(); ?></p>
+				</div>
+				<div class="phf-alternating-list-wrapper__post-excerpt">
+					<p><?php the_excerpt(); ?></p>
+				</div>
+                <a href="<?php the_permalink(); ?>" class="phf-alternating-list-wrapper__site-link">Continue Reading</a>
+            </div>
+            <?php
+        }
+        echo '</div>';
+
+        // Pagination Controls
+		$total_pages = $query->max_num_pages;
+
+		if ($total_pages > 1) {
+			echo '<div class="pagination">';
+			
+			// Previous button (disable if on first page)
+			$prev_disabled = ($paged <= 1) ? 'disabled' : '';
+			echo '<a href="#" class="pagination-link prev-page ' . $prev_disabled . '" data-page="' . max(1, $paged - 1) . '"></a>';
+
+            echo '<div class="pagination-numbers">';
+			
+			for ($i = 1; $i <= $total_pages; $i++) {
+				$active_class = ($i == $paged) ? 'active' : '';
+				echo '<a href="#" class="pagination-link ' . $active_class . '" data-page="' . $i . '">' . $i . '</a>';
+			}
+
+            echo '</div>';
+
+			// Next button (disable if on last page)
+			$next_disabled = ($paged >= $total_pages) ? 'disabled' : '';
+			echo '<a href="#" class="pagination-link next-page ' . $next_disabled . '" data-page="' . min($total_pages, $paged + 1) . '"></a>';
+			
+			echo '</div>';
+		}
+    } else {
+        echo '<p>No results found.</p>';
+    }
+
+    wp_reset_postdata();
+    if (isset($_POST['action'])) {
+        wp_die();
+    }
+}
+add_action('wp_ajax_fetch_custom_posts', 'fetch_custom_posts');
+add_action('wp_ajax_nopriv_fetch_custom_posts', 'fetch_custom_posts');
+// ================== END OF BLOG POST SEARCH + CATEGORY FILTER + ALTERNATING LIST WITH PAGINATION
+
+
+
+// ================== EVENTS SEARCH + CATEGORY FILTER + ALTERNATING LIST WITH PAGINATION
+// Register & Enqueue Scripts
+function enqueue_eventspostlistsearch_script() {
+
+	if ( is_singular() || is_page() ) {
+
+		// $content = apply_filters( 'the_content', get_the_content() );
+		global $post;
+
+		if ( has_shortcode( $post->post_content, 'custom_eventspostlistcontent' ) ) {
+			wp_register_script('custom-eventspostlistcontent-script', '', [], false, true);
+		
+			$inline_script = "
+				document.addEventListener('DOMContentLoaded', function () {
+					const eventsearchInput = document.getElementById('events-search-input');
+					const postList = document.getElementById('events-post-list');
+					const categoryLinks = document.querySelectorAll('#events-category-filter li a');
+					const paginationLinks = document.getElementById('events-pagination-links');
+					let selectedCategory = '';
+		
+					function fetchResults(page = 1) {
+						let searchQuery = eventsearchInput.value.trim();
+						let postType = document.getElementById('events-custom-content-container').dataset.postType;
+						let taxonomy = document.getElementById('events-custom-content-container').dataset.taxonomy; 
+		
+						// If there's a search query, ignore the category filter
+						let categoryParam = searchQuery ? '' : selectedCategory;
+		
+						let formData = new FormData();
+						formData.append('action', 'fetch_eventspostlistcustom_posts');
+						formData.append('search_query', searchQuery);
+						formData.append('post_type', postType);
+						formData.append('taxonomy', taxonomy); // Ensure taxonomy is sent
+						formData.append('category', categoryParam);
+						formData.append('paged', page);
+		
+						fetch(ajax_object.ajaxurl, {
+							method: 'POST',
+							body: formData
+						})
+						.then(response => response.text())
+						.then(data => {
+							postList.innerHTML = data;
+						})
+						.catch(error => console.error('Error fetching results:', error));
+					}
+		
+					// Trigger search and reset category filter
+					eventsearchInput.addEventListener('keyup', () => {
+						selectedCategory = ''; // Reset category filter on search
+						categoryLinks.forEach(l => l.classList.remove('active'));
+						fetchResults();
+					});
+		
+					categoryLinks.forEach(link => {
+						link.addEventListener('click', function (event) {
+							event.preventDefault();
+							selectedCategory = this.dataset.slug;
+		
+							// Clear search field when category is selected
+							eventsearchInput.value = '';  
+		
+							categoryLinks.forEach(l => l.classList.remove('active'));
+							this.classList.add('active');
+		
+							fetchResults();
+						});
+					});
+		
+					document.addEventListener('click', function (event) {
+						if (event.target.classList.contains('events-pagination-link')) {
+							event.preventDefault();
+							let page = event.target.dataset.page;
+							fetchResults(page);
+						}
+					});
+				});
+			";
+		
+			wp_enqueue_script('custom-eventspostlistcontent-script');
+			wp_localize_script('custom-eventspostlistcontent-script', 'ajax_object', ['ajaxurl' => admin_url('admin-ajax.php')]);
+			wp_add_inline_script('custom-eventspostlistcontent-script', $inline_script);
+		}
+	}
+	
+}
+add_action('wp_enqueue_scripts', 'enqueue_eventspostlistsearch_script');
+
+
+// Shortcode for Search + Alternating List + Pagination
+function custom_eventspostlistcontent_shortcode($atts) {
+    $atts = shortcode_atts(['post_type' => 'events'], $atts, 'custom_eventspostlistcontent');
+
+    ob_start(); ?>
+    <div id="events-custom-content-container" data-post-type="events" data-taxonomy="eventcategory" class="phf-alternating-list-wrapper">
+		<div class="phf-alternating-list-wrapper__container">
+			<div class="phf-alternating-list-wrapper__categoryfilter">
+				<!-- Search Box -->
+				<div class="events-search-module">
+					<label for="events-search-input">Search Resources & Tools</label>
+					<input type="text" id="events-search-input" placeholder="What are you looking for?" />
+				</div>
+		
+				<!-- Category List -->
+				<ul id="events-category-filter">
+					<li><a href="#" data-slug="" class="active">All Categories</a></li>
+					<?php
+					$taxonomy = 'eventcategory'; // Replace 'event_category' with the actual taxonomy name for 'events'		
+					$categories = get_terms([
+						'taxonomy'   => $taxonomy,
+						'hide_empty' => false
+					]);		
+					if (!is_wp_error($categories)) {
+						foreach ($categories as $category) {
+							echo '<li><a href="#" data-slug="' . esc_attr($category->slug) . '">' . esc_html($category->name) . '</a></li>';
+						}
+					}
+					?>
+				</ul>
+			</div>
+
+			<div class="phf-postlist-column">
+				<!-- Post List -->
+				<div id="events-post-list">
+					<?php fetch_eventspostlistcustom_posts(['post_type' => $atts['post_type'], 'paged' => 1]); ?>
+				</div>
+		
+				<!-- Pagination -->
+				<div id="events-pagination-links"></div>
+			</div>
+		</div>
+
+    </div>
+    <?php return ob_get_clean();
+}
+add_shortcode('custom_eventspostlistcontent', 'custom_eventspostlistcontent_shortcode'); // [custom_eventspostlistcontent]
+
+
+// AJAX Handler for Fetching Events
+function fetch_eventspostlistcustom_posts($atts = []) {
+    $search_query = isset($_POST['search_query']) ? sanitize_text_field($_POST['search_query']) : '';
+    $taxonomy = isset($_POST['taxonomy']) ? sanitize_text_field($_POST['taxonomy']) : 'eventcategory'; // Default taxonomy for events
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : ''; // Event category slug
+    $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+
+    $args = [
+        'post_type'      => 'events',
+        'posts_per_page' => 8,
+        'paged'          => $paged,
+        'orderby'        => 'date',
+        'order'          => 'DESC'
+    ];
+
+    // **If there's a search query, ignore taxonomy filter**
+    if (!empty($search_query)) {
+        $args['s'] = $search_query;
+        $category = ''; // Ensure category filter is ignored
+    }
+
+    // **Apply taxonomy filter only if a category is selected**
+    if (!empty($category)) {
+        $args['tax_query'] = [
+            [
+                'taxonomy' => $taxonomy,
+                'field'    => 'slug',
+                'terms'    => $category,
+            ],
+        ];
+    }
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        echo '<div class="alternating-list">';
+        $count = 0;
+        while ($query->have_posts()) {
+            $query->the_post();
+            $count++;
+            
+            // Fetch taxonomy terms instead of categories
+            $event_terms = get_the_terms(get_the_ID(), $taxonomy);
+            $category_slug = !empty($event_terms) ? $event_terms[0]->slug : '';?>
+            <div class="phf-alternating-list-wrapper__post-item <?php echo $count % 2 == 0 ? 'even' : 'odd'; ?>" data-category="<?php echo esc_attr($category_slug); ?>">
+				<div class="phf-alternating-list-wrapper__post-meta">
+					<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+					<p><?php echo get_the_date(); ?></p>
+				</div>
+				<div class="phf-alternating-list-wrapper__post-excerpt">
+					<p><?php the_excerpt(); ?></p>
+				</div>
+                <a href="<?php the_permalink(); ?>" class="phf-alternating-list-wrapper__site-link">Continue Reading</a>
+            </div>
+		<?php
+        }
+        echo '</div>';
+
+		// Pagination Controls
+        $total_pages = $query->max_num_pages;
+
+        if ($total_pages > 1) {
+            echo '<div class="events-pagination">';
+            if ($paged > 1) {
+                echo '<a href="#" class="events-pagination-link prev-page" data-page="' . ($paged - 1) . '">Previous</a>';
+            }
+            for ($i = 1; $i <= $total_pages; $i++) {
+                $active_class = ($i == $paged) ? 'active' : '';
+                echo '<a href="#" class="events-pagination-link ' . $active_class . '" data-page="' . $i . '">' . $i . '</a>';
+            }
+            if ($paged < $total_pages) {
+                echo '<a href="#" class="events-pagination-link next-page" data-page="' . ($paged + 1) . '">Next</a>';
+            }
+            echo '</div>';
+        }
+    } else {
+        echo '<p>No events found.</p>';
+    }
+
+    wp_reset_postdata();
+    if (isset($_POST['action'])) {
+        wp_die();
+    }
+}
+add_action('wp_ajax_fetch_eventspostlistcustom_posts', 'fetch_eventspostlistcustom_posts');
+add_action('wp_ajax_nopriv_fetch_eventspostlistcustom_posts', 'fetch_eventspostlistcustom_posts');
+// ================== END OF EVENTS SEARCH + CATEGORY FILTER + ALTERNATING LIST WITH PAGINATION
+
+
+// MODULE: Search Resources & Tools + Alternating List combined
+function search_alternatinglist_combined_style_enqueue() {
+    // Frontend styles
+    wp_enqueue_style(
+        'search-alternatinglist-combined-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_search-alternatinglist-combined.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+function search_alternatinglist_combined_style_enqueue_editor_styles() {
+    // Editor styles
+    wp_enqueue_style(
+        'search-alternatinglist-combined-styles', 
+        get_stylesheet_directory_uri() . '/src/sass/theme/blocks/_search-alternatinglist-combined.scss', 
+        array(), 
+        '1.0.0'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'search_alternatinglist_combined_style_enqueue'); // Frontend
+add_action('enqueue_block_editor_assets', 'search_alternatinglist_combined_style_enqueue_editor_styles'); // Editor
