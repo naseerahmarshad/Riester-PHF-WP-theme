@@ -228,10 +228,25 @@
             }
         }
         @media (max-width: 767px) {
+            position: relative;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            &:before {
+                display: none;
+            }
             > .wp-block-columns {
                 gap: 1.875rem;
+                padding-top: 2rem;
+                padding-right: 1rem;
+                padding-bottom: 2rem;
+                padding-left: 1rem;
                 .phf-module-popup-wrapper__col2 {
-                    padding-bottom: 4.375rem;
+                    padding-bottom: 0;
+                }
+                .phf-module-popup-wrapper__closebtn {
+                    display: none;
                 }
             }
         }
